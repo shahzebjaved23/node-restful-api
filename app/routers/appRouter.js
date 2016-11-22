@@ -1,5 +1,5 @@
 var passport = require('passport'),
-    const jwt = require('jsonwebtoken'),
+  SignInModule = require("./../modules/SignInModule"),
     signupController = require('../controllers/signupController.js')
 
 module.exports = function(express) {
@@ -13,8 +13,10 @@ module.exports = function(express) {
     });
   }
   
-  router.get('/signup', signupController.show)
-  router.post('/signup', signupController.signup)
-
+  router.post('/signup', signupController.signup);
+  router.post('/signin', passport.authenticate(
+    "local", {
+      session: false
+  }), SignInModule.serialize, SignInModule.generateToken, SignInModule.respond)
   return router
 }

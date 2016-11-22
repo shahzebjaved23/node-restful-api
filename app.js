@@ -1,7 +1,6 @@
 
 var express = require('express'),
     app = express(),
-    setupHandlebars  = require('./app/setupHandlebars.js')(app),
     setupPassport = require('./app/setupPassport'),
     flash = require('connect-flash'),
     appRouter = require('./app/routers/appRouter.js')(express),
@@ -28,7 +27,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-
+setupPassport(app)
 app.use('/', appRouter)
 
 // start app

@@ -1,6 +1,17 @@
 var Sequelize = require('sequelize')
 
 var attributes = {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  createdAt: {
+    type: Sequelize.DATE
+  },
+  updatedAt: {
+    type: Sequelize.DATE
+  },
   username: {
     type: Sequelize.STRING,
     allowNull: false,
