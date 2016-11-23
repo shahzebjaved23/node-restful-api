@@ -22,9 +22,14 @@ var attributes = {
   },
   email: {
     type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
     validate: {
       isEmail: true
     }
+  },
+  gender: {
+    type: Sequelize.STRING,
   },
   firstName: {
     type: Sequelize.STRING,

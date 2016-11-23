@@ -5,7 +5,7 @@ var passport = require('passport'),
 module.exports = function(express) {
   var router = express.Router()
 
-  var isAuthenticated = function (req, res, next) {
+    var isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated())
       return next()
     res.status(400).json({

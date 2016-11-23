@@ -6,9 +6,13 @@ module.exports.show = function(req, res) {
 }
 
 module.exports.signup = function(req, res) {
+  console.log(req.body)
   var username = req.body.username
   var password = req.body.password
   var password2 = req.body.password_confirmation
+  var email = req.body.email;
+  var first_name = req.body.first_name;
+  var last_name = req.body.last_name;
   
   if (!username || !password || !password2) {
     return res.status(200).json({
@@ -26,9 +30,13 @@ module.exports.signup = function(req, res) {
   var hashedPassword = bcrypt.hashSync(password, salt)
   
   var newUser = {
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
     username: username,
     salt: salt,
     password: hashedPassword
+
   }
   
   Model.User.create(newUser).then(function() {
