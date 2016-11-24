@@ -6,6 +6,12 @@ var attributes = {
     primaryKey: true,
     autoIncrement: true
   },
+  full_name: {
+    type: Sequelize.VIRTUAL,
+    get: function(val) {
+      return this.get("first_name") + " " + this.get("last_name");
+    }
+  },
   createdAt: {
     type: Sequelize.DATE
   },

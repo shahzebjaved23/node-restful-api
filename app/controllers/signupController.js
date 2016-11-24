@@ -38,7 +38,8 @@ module.exports.signup = function(req, res) {
     password: hashedPassword
 
   }
-  
+  console.log(hashedPassword);
+  console.log(salt);
   Model.User.create(newUser).then(function() {
     return res.status(200).json({
       status: "success",
@@ -47,7 +48,7 @@ module.exports.signup = function(req, res) {
     });
 
   }).catch(function(error) {
-    return res.status(200).json({
+    return res.status(400).json({
       error: error
     });
   })
