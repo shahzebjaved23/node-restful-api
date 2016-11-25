@@ -4,6 +4,9 @@
   "description": "",
   "main": "app.js",
   "author": "kamal ejaz",
+  "scripts": {
+    "start":"node app.js"
+  },
   "dependencies": {
     "bcrypt": "~0.8.5",
     "body-parser": "~1.13.3",
