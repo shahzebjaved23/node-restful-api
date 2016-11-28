@@ -12,6 +12,13 @@ var attributes = {
   updatedAt: {
     type: Sequelize.DATE
   },
+  userId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: "User",
+      key: "id"
+    }
+  }
 }
 
 var options = {

@@ -19,8 +19,8 @@ module.exports.signin = function(req, res) {
     if (user.password === hashedPassword) {
       token = jwt.sign({
         id: user.id
-      }, "jasdjmn1231231", {
-        expiresIn: 120
+      }, process.env.SECRET_TOKEN, {
+        expiresIn: 3200
       });
       return res.status(200).json({
         id: user.id,
