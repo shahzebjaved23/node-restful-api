@@ -2,7 +2,12 @@ require('dotenv').config();
 
 var Sequelize = require('sequelize');
 if(process.env.NODE_ENV === "production"){
-  var sequelize = new Sequelize(process.env.DATABASE_URL)
+  var sequelize = new Sequelize(process.env.DATABASE_URL, {
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
+    }})
 } else {
   var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
