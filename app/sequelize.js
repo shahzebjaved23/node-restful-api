@@ -2,11 +2,12 @@ require('dotenv').config();
 
 var Sequelize = require('sequelize');
 if(!process.env.DATABASE_URL){
+  /*
   var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
     port: 3306
   });
-
+*/
 } else {
   var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
   var sequelize = new Sequelize(match[5], match[1], match[2], {
