@@ -12,7 +12,7 @@ if(process.env.DATABASE_URL){
     logging: false,
     dialectOptions: {
         ssl: true
-    }
+    }})
 } else {
   var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
