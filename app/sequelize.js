@@ -1,7 +1,15 @@
 require('dotenv').config();
 
 var Sequelize = require('sequelize');
-if(process.env.NODE_ENV == "production"){
+console.log("8888888888888****");
+console.log("8888888888888****");
+console.log("8888888888888****");
+console.log("8888888888888****");
+console.log("8888888888888****");
+console.log("8888888888888****");
+console.log("8888888888888****");
+console.log(process.env);
+if(process.env.DATABASE_URL){
   var sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect:  'postgres',
     protocol: 'postgres',
