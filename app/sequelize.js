@@ -1,20 +1,18 @@
 require('dotenv').config();
 
 var Sequelize = require('sequelize');
-console.log("8888888888888****");
-console.log("8888888888888****");
-console.log("8888888888888****");
-console.log("8888888888888****");
-console.log("8888888888888****");
-console.log("8888888888888****");
-console.log("8888888888888****");
-console.log(process.env);
 if(process.env.DATABASE_URL){
-  var sequelize = new Sequelize(process.env.DATABASE_URL, {
+  var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
+
+ var sequelize = new Sequelize(match[5], match[1], match[2], {
     dialect:  'postgres',
     protocol: 'postgres',
-    logging:  true //false
-  })
+    port:     match[4],
+    host:     match[3],
+    logging: false,
+    dialectOptions: {
+        ssl: true
+    }
 } else {
   var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
