@@ -3,12 +3,12 @@ require('dotenv').config();
 var Sequelize = require('sequelize');
 if(process.env.NODE_ENV === "production"){
   var sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: "mysql",
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    }})
+    dialect:  'postgres',
+    protocol: 'postgres',
+    port:     match[4],
+    host:     match[3],
+    logging:  true //false
+  })
 } else {
   var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
