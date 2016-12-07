@@ -7,5 +7,6 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
 
 
 User.hasMany(Post);
+Post.belongsTo(User);
 module.exports.User = User
 module.exports.Post = Post

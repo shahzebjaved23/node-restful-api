@@ -9,6 +9,9 @@ var attributes = {
   createdAt: {
     type: Sequelize.DATE
   },
+  body: {
+    type: Sequelize.TEXT
+  },
   updatedAt: {
     type: Sequelize.DATE
   },

@@ -19,5 +19,6 @@ module.exports = function(express) {
   router.post('/signup', signupController.signup);
   router.post('/signin', signinController.signin);
   router.get('/posts', jwt({secret: process.env.SECRET_TOKEN}), postsController.index);
+  router.post('/posts/add', jwt({secret: process.env.SECRET_TOKEN}), postsController.add);
   return router
 }

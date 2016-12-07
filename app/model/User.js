@@ -52,7 +52,15 @@ var attributes = {
 }
 
 var options = {
-  freezeTableName: true
+  freezeTableName: true,
+  instanceMethods: {
+    toJSON: function() {
+      var values = Object.assign({}, this.get());
+      delete values.password;
+      delete values.salt;
+      return values;
+    }
+  }
 }
 
 module.exports.attributes = attributes
