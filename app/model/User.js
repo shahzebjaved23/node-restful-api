@@ -9,7 +9,7 @@ var attributes = {
   full_name: {
     type: Sequelize.VIRTUAL,
     get: function(val) {
-      return this.get("first_name") + " " + this.get("last_name");
+      return this.get("firstName") + " " + this.get("lastName");
     }
   },
   createdAt: {

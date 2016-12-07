@@ -24,6 +24,8 @@ module.exports.signin = function(req, res) {
       });
       return res.status(200).json({
         id: user.id,
+        first_name: user.firstName,
+        last_name: user.lastName,
         email: user.email,
         full_name: user.full_name,
         token: token,
