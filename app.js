@@ -38,10 +38,10 @@ app.use(bodyParser.urlencoded({
 
 setupPassport(app)
 app.use('/', appRouter)
+app.use("/public", express.static("public"))
 
 // start app
 app.listen(port, () => {
-
   console.log('Server started on port ' + port);
 })
 

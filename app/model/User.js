@@ -48,6 +48,21 @@ var attributes = {
   },
   salt: {
     type: Sequelize.STRING
+  },
+  image: {
+    type: Sequelize.STRING
+  },
+  profile_image_name: {
+    type: Sequelize.VIRTUAL,
+    set: function(val){
+      this.setDataValue('image', val)
+    }
+  },
+  profile_image: {
+    type: Sequelize.VIRTUAL,
+    get: function(){
+      return process.env.AUTH_HOST + "/public/uploads/users/" + this.get("id") + "/" + this.get("image");
+    }
   }
 }
 
