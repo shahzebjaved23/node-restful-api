@@ -61,7 +61,8 @@ var attributes = {
   profile_image: {
     type: Sequelize.VIRTUAL,
     get: function(){
-      return process.env.AUTH_HOST + "/public/uploads/users/" + this.get("id") + "/" + this.get("image");
+      var fileName = "public/uploads/users/" + this.get("id") + "/" + this.get("image");
+      return `https://${process.env.SHAFUL_S3_BUCKET}.s3.amazonaws.com/${fileName}`
     }
   }
 }

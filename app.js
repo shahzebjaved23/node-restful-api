@@ -7,7 +7,7 @@ var express = require('express'),
   session = require('express-session'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
-  jsonParser = bodyParser.json()
+  jsonParser = bodyParser.json({ limit: "50mb"})
 
 require('dotenv').config()
 

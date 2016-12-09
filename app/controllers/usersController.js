@@ -1,6 +1,7 @@
 var Model = require("../model/models.js"),
   fs = require('fs'),
-  mkdirp = require('mkdirp');
+  mkdirp = require('mkdirp'),
+  S3Upload = require('../modules/S3Upload.js');
 
 module.exports.update = function(req, res) {
   let attrs = {};
@@ -13,16 +14,8 @@ module.exports.update = function(req, res) {
     .then(function(results){
       if(attrs["profile_image_name"]){
         var data = req.body.profile_image;
-        var base64Data = data.replace(/^data:([A-Za-z-+\/]+);base64,/, '');
-        base64Data  +=  base64Data.replace('+', ' ');
-        var binaryData  =   new Buffer(base64Data, 'base64').toString('binary');
-        var dirName = process.cwd() + '/public/uploads/users/' + req.user.id;
-        if(!fs.existsSync(dirName)){
-          mkdirp.sync(dirName);
-        }
-        fs.writeFile(dirName+'/'+attrs["profile_image_name"], binaryData, 'binary', function(err) {
-          console.log(err);
-        });
+        var dirName = 'public/uploads/users/' + req.user.id + '/' + attrs["profile_image_name"];
+        S3Upload.upload(dirName, data, function(err, data) { });
       }
       Model.User.findById(req.user.id).then((user) => {
         res.status(200).json({
