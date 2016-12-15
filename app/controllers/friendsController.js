@@ -3,7 +3,7 @@ var Model = require('../model/models.js'),
   _ = require('lodash');
 
 module.exports.index = function(req, res) {
-  Model.connection.query('SELECT *, EXISTS(SELECT * from users_friends as ufo where ufo.userId = :userId AND ufo.friendId = users.id) as connected FROM users where users.id != :userId',
+  Model.connection.query('SELECT *, EXISTS(SELECT * from users_friends as ufo where "ufo"."userId" = :userId AND "ufo"."friendId" = users.id) as connected FROM users where users.id != :userId',
     {replacements: { userId: req.user.id }, type: Sequelize.QueryTypes.SELECT })
     .then((data) => {
       var friends = _.map(data, (hsh) => {
