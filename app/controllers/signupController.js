@@ -30,8 +30,8 @@ module.exports.signup = function(req, res) {
   var hashedPassword = bcrypt.hashSync(password, salt)
   
   var newUser = {
-    first_name: first_name,
-    last_name: last_name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
     username: username,
     salt: salt,
