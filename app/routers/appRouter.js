@@ -5,7 +5,8 @@ var passport = require('passport'),
   signinController = require('../controllers/signinController.js'),
   usersController = require('../controllers/usersController.js'),
   postsController = require('../controllers/postsController.js'),
-  photosController = require('../controllers/photosController.js');
+  photosController = require('../controllers/photosController.js'),
+  friendsController = require('../controllers/friendsController.js');
   require("dotenv").config()
 
 module.exports = function(express) {
@@ -25,5 +26,9 @@ module.exports = function(express) {
   router.put('/users/:id', jwt({secret: process.env.SECRET_TOKEN}), usersController.update);
   router.post('/photos', jwt({secret: process.env.SECRET_TOKEN}), photosController.create);
   router.get('/photos', jwt({secret: process.env.SECRET_TOKEN}), photosController.index);
+  router.get('/friends', jwt({secret: process.env.SECRET_TOKEN}), friendsController.index);
+  router.post('/friends', jwt({secret: process.env.SECRET_TOKEN}), friendsController.add);
+
+  router.post('/friends/search', jwt({secret: process.env.SECRET_TOKEN}), friendsController.search);
   return router
 }
