@@ -11,8 +11,8 @@ module.exports.signup = function(req, res) {
   var password = req.body.password
   var password2 = req.body.password_confirmation
   var email = req.body.email;
-  var first_name = req.body.first_name;
-  var last_name = req.body.last_name;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
   
   if (!username || !password || !password2) {
     return res.status(200).json({
@@ -38,8 +38,6 @@ module.exports.signup = function(req, res) {
     password: hashedPassword
 
   }
-  console.log(hashedPassword);
-  console.log(salt);
   Model.User.create(newUser).then(function() {
     return res.status(200).json({
       status: "success",
