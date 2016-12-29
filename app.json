@@ -1,0 +1,6 @@
+{
+  "name": "shaful-api",
+  "script":"app.js",
+  "cwd": "/home/ubuntu/www/current/"
+}
+
