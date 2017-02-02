@@ -1,3 +1,4 @@
+"use strict";
 var Model = require('../model/models.js'),
   Sequelize = require('sequelize'),
   _ = require('lodash');

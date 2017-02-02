@@ -1,3 +1,4 @@
+"use strict";
 var Model = require("../model/models.js"),
   fs = require('fs'),
   mkdirp = require('mkdirp'),

@@ -1,3 +1,4 @@
+"use strict";
 var Model = require('../model/models.js'),
   S3Upload = require('../modules/S3Upload.js'),
   _ = require('lodash');

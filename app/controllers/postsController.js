@@ -1,6 +1,8 @@
+"use strict";
 var Model = require("../model/models.js");
 
 module.exports.index = function(req, res) {
+  console.log(process.env);
   Model.User.findById(req.user.id).then((user) =>{
     user.getPosts({include: [Model.User]}).then( (posts) => {
       res.status(200).json({
@@ -9,6 +11,7 @@ module.exports.index = function(req, res) {
     })
   });
 }
+
 module.exports.add = function(req, res) {
   var postAttributes = {};
   postAttributes["body"] = req.body.body;

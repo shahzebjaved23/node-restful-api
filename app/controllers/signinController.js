@@ -1,3 +1,4 @@
+"use strict";
 var passport = require("passport"),
   jwt = require("jsonwebtoken"),
   Model = require('../model/models.js'),
@@ -17,7 +18,7 @@ module.exports.signin = function(req, res) {
 
     var hashedPassword = bcrypt.hashSync(password, user.salt);
     if (user.password === hashedPassword) {
-      token = jwt.sign({
+      var token = jwt.sign({
         id: user.id
       }, process.env.SECRET_TOKEN, {
         expiresIn: 3200

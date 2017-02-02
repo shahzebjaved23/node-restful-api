@@ -1,4 +1,4 @@
-
+"use strict";
 var express = require('express'),
   app = express(),
   setupPassport = require('./app/setupPassport'),

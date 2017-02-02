@@ -1,3 +1,4 @@
+"use strict";
 var UserMeta = require('./User.js'),
     PostMeta = require('./Post.js'),
     PhotoMeta = require('./Photo.js'),
@@ -21,6 +22,8 @@ User.hasMany(Video);
 Photo.belongsTo(User);
 Video.belongsTo(User);
 User.belongsToMany(User, { as: 'Friends', through: 'users_friends', foreignKey: 'userId' })
+
+
 
 module.exports.connection = connection
 module.exports.User = User

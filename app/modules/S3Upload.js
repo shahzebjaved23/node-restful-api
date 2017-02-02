@@ -1,3 +1,4 @@
+"use strict";
 var AWS = require('aws-sdk');
 module.exports.upload = function(fileNameWithPath, content, callBack) {
   AWS.config.update({accessKeyId: process.env.SHAFUL_ACCESS_KEY_ID, secretAccessKey: process.env.SHAFUL_SECRET_ACCESS_KEY});
