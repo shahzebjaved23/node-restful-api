@@ -33,4 +33,31 @@ module.exports.create = function(req, res) {
     });
 }
 
+module.exports.likes = function(req,res){
+  var userId = req.user.id;
+  var photoId = req.body.photoId;
+  
+  Model.Like.findAll({
+        where: {
+          photoId: photoId
+        }
+      }).then(function(likes){
+    return res.status(200).json({likes: likes});
+  }).catch(function(error){
+    return res.status(400).json({error: error})
+  });
+}
+
+module.exports.addLike = function(req,res){
+  var attrs = {};
+  attrs["userId"] = req.user.id;
+  attrs["photoId"] = req.params.photoId;
+  
+  Model.Like.create(attrs).then(function(like){
+    return res.status(200).json({ message: "created successfully"});
+  }).catch(function(error){
+    return res.status(400).json({ error: error});
+  });
+}
+
 

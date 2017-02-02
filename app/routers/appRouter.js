@@ -42,6 +42,12 @@ module.exports = function(express) {
   router.post('/friends/search', jwt({secret: process.env.SECRET_TOKEN}), friendsController.search);
   
   router.post('/media', jwt({secret: process.env.SECRET_TOKEN}), mediaController.create);
+
+  router.get('/photos/:photoId/likes',jwt({secret: process.env.SECRET_TOKEN}),photosController.likes)
+  router.post('/photos/:photoId/addLike',jwt({secret: process.env.SECRET_TOKEN}),photosController.addLike)
+  
+
+
   
   return router
 }
