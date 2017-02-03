@@ -5,7 +5,8 @@ var UserMeta = require('./User.js'),
     UsersFriendMeta = require('./UsersFriend.js'),
     VideoMeta = require('./Video.js'),
     connection = require('../sequelize.js'),
-    LikeMeta= require('./Like.js');
+    LikeMeta= require('./Like.js'),
+    CommentMeta = require('./Comment.js');
 
 
 
@@ -14,7 +15,8 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
   Photo = connection.define('photos', PhotoMeta.attributes, PhotoMeta.options),
   UsersFriend = connection.define('users_friends', UsersFriendMeta.attributes, UsersFriendMeta.options),
   Video = connection.define('videos', VideoMeta.attributes, VideoMeta.options),
-  Like = connection.define('likes',LikeMeta.attributes,LikeMeta.options);
+  Like = connection.define('likes',LikeMeta.attributes,LikeMeta.options),
+  Comment = connection.define('comments',CommentMeta.attributes,CommentMeta.options);
 
 
 User.hasMany(Post);
@@ -27,6 +29,14 @@ User.belongsToMany(User, { as: 'Friends', through: 'users_friends', foreignKey: 
 
 Post.hasMany(Like);
 Photo.hasMany(Like);
+Like.belongsTo(Post);
+Like.belongsTo(Photo);
+
+Post.hasMany(Comment);
+Photo.hasMany(Comment);
+Comment.belongsTo(Post);
+Comment.belongsTo(Photo);
+
 
 
 module.exports.connection = connection
@@ -36,3 +46,4 @@ module.exports.Photo = Photo
 module.exports.UsersFriend = UsersFriend
 module.exports.Video = Video
 module.exports.Like = Like
+module.exports.Comment = Comment

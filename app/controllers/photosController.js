@@ -69,4 +69,43 @@ module.exports.addLike = function(req,res){
   });
 }
 
+module.exports.comments = function(req,res){
+  var userId = req.user.id;
+  var photoId = req.params.photoId;
 
+  Model.Comment.findAll({
+    where: {
+      photoId: photoId
+    }
+  }).then(function(comments){
+    res.status(200).json({
+      comments: comments
+    })
+  }).catch(function(error){
+    res.status(400).json({
+      error: error
+    })
+  });
+}
+
+module.exports.addComment = function(req,res){
+  var userId = req.user.id;
+  var photoId = req.params.photoId;
+  var body = req.body.commentBody;
+
+
+  var attrs = {};
+  attrs["body"] = body;
+  attrs["userId"] = userId;
+  attrs["photoId"] = photoId;
+
+  Model.Comment.create(attrs).then(function(photo){
+    res.status(200).json({
+      photo: photo
+    })
+  }).catch( (error)=> {
+    res.status(400).json({
+      error: error
+    })
+  });
+}

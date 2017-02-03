@@ -52,7 +52,13 @@ module.exports = function(express) {
   router.get('/posts/:postId/likes',jwt({secret: process.env.SECRET_TOKEN}),postsController.likes)
   router.post('/posts/:postId/likes',jwt({secret: process.env.SECRET_TOKEN}),postsController.addLike)
 
-
+// Photos Comments
+  router.get('/photos/:photoId/comments',jwt({secret: process.env.SECRET_TOKEN}),photosController.comments)
+  router.post('/photos/:photoId/comments',jwt({secret: process.env.SECRET_TOKEN}),photosController.addComment)
   
+// Posts comments
+  router.get('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),postsController.comments)
+  router.post('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),postsController.addComment)
+
   return router
 }

@@ -13,7 +13,7 @@ module.exports.index = function(req, res) {
 }
 
 module.exports.add = function(req, res) {
-  var postAttributes = {};
+  var postAttributes = [];
   postAttributes["body"] = req.body.body;
   postAttributes["userId"] = req.user.id;
   postAttributes["include"] = [Model.User];
@@ -57,6 +57,47 @@ module.exports.addLike = function(req,res){
     return res.status(200).json({ message: "created successfully"});
   }).catch(function(error){
     return res.status(400).json({ error: error});
+  });
+}
+
+module.exports.comments = function(req,res){
+  var userId = req.user.id;
+  var postId = req.params.postId;
+
+  Model.Comment.findAll({
+    where: {
+      postId: postId
+    }
+  }).then(function(comments){
+    res.status(200).json({
+      comments: comments
+    })
+  }).catch(function(error){
+    res.status(400).json({
+      error: error
+    })
+  });
+}
+
+module.exports.addComment = function(req,res){
+  var userId = req.user.id;
+  var postId = req.params.postId;
+  var body = req.params.commentBody;
+
+  var attrs = {};
+  attrs["body"] = body;
+  attrs["userId"] = userId;
+  attrs["postId"] = postId;
+
+
+  Model.Comment.create(attrs).then(function(photo){
+    res.status(200).json({
+      photo: photo
+    })
+  }).catch( (error)=> {
+    res.status(400).json({
+      error: error
+    })
   });
 }
 
