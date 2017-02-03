@@ -27,6 +27,12 @@ module.exports.create = function(req, res) {
             error: error
           });
         }else{
+          // create a new feed
+          Model.Feed.create({
+            photoId: photo.id,
+            userId: userId
+          });
+          // send the response
           res.status(200).json({
             photo: photo
           });

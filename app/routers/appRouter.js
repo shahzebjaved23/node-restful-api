@@ -9,7 +9,9 @@ var passport = require('passport'),
   photosController = require('../controllers/photosController.js'),
   friendsController = require('../controllers/friendsController.js'),
   videosController = require('../controllers/videosController.js'),
-  mediaController = require('../controllers/mediaController.js');
+  mediaController = require('../controllers/mediaController.js'),
+  feedsController = require('../controllers/feedsController.js');
+
   require("dotenv").config()
 
 module.exports = function(express) {
@@ -59,6 +61,11 @@ module.exports = function(express) {
 // Posts comments
   router.get('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),postsController.comments)
   router.post('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),postsController.addComment)
+
+
+// user feeds
+  router.get("/feeds",jwt({secret: process.env.SECRET_TOKEN}),feedsController.feeds);
+  
 
   return router
 }

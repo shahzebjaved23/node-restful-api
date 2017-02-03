@@ -13,12 +13,23 @@ module.exports.index = function(req, res) {
 }
 
 module.exports.add = function(req, res) {
-  var postAttributes = [];
+  
+  var postAttributes = {};
+  var userId = req.user.id;
   postAttributes["body"] = req.body.body;
   postAttributes["userId"] = req.user.id;
   postAttributes["include"] = [Model.User];
+  
   Model.User.findById(req.user.id).then((user) => {
     Model.Post.create(postAttributes).then(function(post){
+
+      // create the feed
+      Model.Feed.create({
+        postId: post.id,
+        userId: userId
+      });
+
+      // send the response
       return res.status(200).json({
         post: post,
         user: user
