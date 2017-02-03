@@ -15,18 +15,27 @@ module.exports.create = function(req, res) {
   let attrs = {}
   attrs["userId"] = req.user.id;
   attrs['filePath'] = req.body.fileName;
+  console.log(req.body);
   Model.Photo.create(attrs)
     .then((photo) => {
       var data = req.body.fileData;
-      var dirName = `public/uploads/photos/${photo.id}/${photo.filePath}`
+      var dirName = `public/uploads/photos/${photo.id}/${photo.filePath}`;
       S3Upload.upload(dirName, data, function(error, data) {
-        res.status(200).json({
-          photo: photo
-        });
+        if(error){
+          console.log(error);
+          res.status(400).json({
+            error: error
+          });
+        }else{
+          res.status(200).json({
+            photo: photo
+          });
+        }
       });
 
     })
     .catch((error) => {
+      console.log(error);
       res.status(400).json({
         error: error
       });
@@ -35,7 +44,7 @@ module.exports.create = function(req, res) {
 
 module.exports.likes = function(req,res){
   var userId = req.user.id;
-  var photoId = req.body.photoId;
+  var photoId = req.params.photoId;
   
   Model.Like.findAll({
         where: {
