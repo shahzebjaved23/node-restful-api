@@ -15,16 +15,22 @@ module.exports = {
         updatedAt: {
           type: Sequelize.DATE
         },
-        title: {
+        name: {
           type: Sequelize.STRING,
         },
-        summary: {
+        description: {
           type: Sequelize.TEXT,
         },
-        company_name: {
-          type: Sequelize.STRING,
+        url:{
+          type: Sequelize.STRING
         },
-        job_category_id: {
+        start_date:{
+          type: Sequelize.DATE
+        },
+        end_date: {
+          type: Sequelize.DATE
+        },
+        resume_id: {
           type: Sequelize.INTEGER
         }
         

@@ -13,13 +13,13 @@ module.exports.index = function (req, res) {
 }
 module.exports.create = function(req, res) {
   let attrs = {}
-  attrs["userId"] = req.user.id;
   attrs['filePath'] = req.body.fileName;
+  attrs["userId"] = req.user.id;
   console.log(req.body);
   Model.Photo.create(attrs)
     .then((photo) => {
       var data = req.body.fileData;
-      var dirName = `public/uploads/photos/${photo.id}/${photo.filePath}`;
+      var dirName = 'public/uploads/photos/${photo.id}/${photo.filePath}';
       S3Upload.upload(dirName, data, function(error, data) {
         if(error){
           console.log(error);

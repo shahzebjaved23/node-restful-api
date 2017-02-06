@@ -18,13 +18,28 @@ module.exports = {
         title: {
           type: Sequelize.STRING,
         },
-        summary: {
+        description: {
           type: Sequelize.TEXT,
         },
-        company_name: {
-          type: Sequelize.STRING,
+        class:{
+          type: Sequelize.STRING
         },
-        job_category_id: {
+        grade: {
+          type: Sequelize.STRING
+        },
+        field: {
+          type: Sequelize.STRING
+        },
+        institution: {
+          type: Sequelize.STRING
+        },
+        start_year:{
+          type: Sequelize.DATE
+        },
+        end_year:{
+          type: Sequelize.DATE
+        },
+        resume_id: {
           type: Sequelize.INTEGER
         }
         
