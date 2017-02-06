@@ -32,7 +32,7 @@ module.exports = {
         },
         resume_id:{
           type: Sequelize.INTEGER
-        }
+        },
         job_category_id: {
           type: Sequelize.INTEGER
         }
