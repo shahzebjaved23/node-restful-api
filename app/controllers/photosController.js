@@ -23,7 +23,7 @@ module.exports.create = function(req, res) {
       S3Upload.upload(dirName, data, function(error, data) {
         if(error){
           console.log(error);
-          res.status(400).json({
+          return res.status(400).json({
             error: error
           });
         }else{
@@ -33,7 +33,7 @@ module.exports.create = function(req, res) {
             userId: userId
           });
           // send the response
-          res.status(200).json({
+          return res.status(200).json({
             photo: photo
           });
         }
