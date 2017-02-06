@@ -3,6 +3,8 @@ var Model = require('../model/models.js'),
   Sequelize = require('sequelize'),
   _ = require('lodash');
 
+var sequelize = require("../sequelize.js");
+
 module.exports.index = function(req, res) {
   Model.connection.query('SELECT *, EXISTS(SELECT * from users_friends as ufo where ufo.userId = :userId AND ufo.friendId = users.id) as connected FROM users where users.id != :userId',
     {replacements: { userId: req.user.id }, type: Sequelize.QueryTypes.SELECT })
@@ -58,3 +60,80 @@ module.exports.search = function(req, res) {
     });
 
 }
+
+
+/*
+gets all the friend requests of the user
+in the users_friends table, 
+    userId corresponds to sender
+    friendId corresponds to reciever 
+*/ 
+module.exports.getFriendRequests = function(req,res){
+  var userId = req.user.id;
+  
+  sequelize.query("select * from users_friends where friendId="+userId+" and status='pending'", {type: Sequelize.QueryTypes.SELECT }).then(function(data){
+    return res.status(200).json({
+      friendRequests: data
+    })
+  });
+}
+
+/*
+method: post,
+url: /send_friend_request,
+params: friendId,
+response: {
+  message: 'request sent successfully'
+}
+*/
+module.exports.sendFriendRequest = function(req,res){
+  var userId = req.user.id;
+  var friendId = req.body.friendId;
+
+  Model.UsersFriend.create({
+    userId: userId,
+    friendId: friendId,
+    status: "pending"
+  })
+  .then(function(data){
+    return res.status(200).json({
+      message: "request sent successfully"
+    })
+  })
+  .catch(function(error){
+    return res.status(400).json({
+      error: error
+    })
+  })
+}
+
+
+/*
+method: post,
+url: /accept_friend_request,
+params: requestId,
+response: {
+  message: 'friend request accepted'
+}
+*/
+module.exports.acceptFriendRequest= function(req,res){
+  var userId = req.user.id;
+  var requestId = req.body.requestId;
+
+  Model.UsersFriend.findById(requestId).then(function(data){
+    data.update({
+      status: "done"
+    })
+    .then(function(users_friends){
+      return res.status(200).json({
+        message: "friend request accepted"
+      })
+    })
+    .catch(function(error){
+      return res.status(400).json({
+        error: error
+      })
+    });
+  })
+}
+

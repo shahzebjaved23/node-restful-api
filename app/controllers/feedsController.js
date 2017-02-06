@@ -19,9 +19,23 @@ module.exports.feeds = function(req,res){
 				friends_ids.push(friend.id);
 			})
 
-			// get the posts and photos of the friends_ids
-			sequelize.query("SELECT * from feeds where userId in ("+friends_ids+")",{ type: sequelize.QueryTypes.SELECT}).then( (feeds)=>{
-				console.log(feeds);
-			} );
+			if (friends_ids.length > 0){
+				// get the posts and photos of the friends_ids
+				sequelize.query("SELECT * from feeds where userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT}).then( (feeds)=>{
+						return res.status(200).json({
+							feeds:feeds
+						});
+					} ).catch((error)=>{
+						return res.status(400).json({
+							error: error
+						});
+					});	
+			}else{
+				return res.status(200).json({
+					message: "you have no feeds"
+				})
+			}
+
+			
 		});
 }

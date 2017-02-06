@@ -65,6 +65,13 @@ module.exports = function(express) {
 
 // user feeds
   router.get("/feeds",jwt({secret: process.env.SECRET_TOKEN}),feedsController.feeds);
+
+// Friend Requests
+
+  router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests)
+  router.post("/send_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.sendFriendRequest)
+  router.post("/accept_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.acceptFriendRequest) 
+
   
 
   return router

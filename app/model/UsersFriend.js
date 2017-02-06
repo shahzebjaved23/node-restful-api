@@ -20,6 +20,9 @@ var attributes  = {
       model: "User",
       key: "id"
     }
+  },
+  status: {
+    type: Sequelize.STRING
   }
 }
 
