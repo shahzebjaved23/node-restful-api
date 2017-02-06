@@ -137,3 +137,42 @@ module.exports.acceptFriendRequest= function(req,res){
   })
 }
 
+// cancel friend request
+module.exports.cancelFriendRequest = function(req,res){
+  var requestId = req.body.requestId;
+
+  Model.UsersFriend.findById(requestId)
+  .then(function(request){
+    request.destroy().then(function(){
+      return res.status(200).json({
+        message: "friend Request cancelled successfully"
+      })
+    }).catch(function(error){
+      return res.status(400).json({
+        error: error
+      })
+    });
+  })
+  .catch(function(error){
+    return res.status(400).json({
+      error: error
+    })
+  })
+}
+
+// delete friend
+module.exports.removeFriend = function(req,res){
+  var friendId = req.body.friendId;
+  var userId = req.user.id;
+
+  sequelize.query("Delete from users_friends where (userId="+userId+" and friendId="+friendId+") or (userId="+friendId+" and friendId="+userId+")").then(function(){
+    res.status(200).json({
+      message: "Friend successfully removed"
+    })
+  }).catch(function(error){
+    return res.status(400).json({
+      error: error
+    })
+  })
+  
+}

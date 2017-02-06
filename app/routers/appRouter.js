@@ -10,7 +10,8 @@ var passport = require('passport'),
   friendsController = require('../controllers/friendsController.js'),
   videosController = require('../controllers/videosController.js'),
   mediaController = require('../controllers/mediaController.js'),
-  feedsController = require('../controllers/feedsController.js');
+  feedsController = require('../controllers/feedsController.js'),
+  jobsController = require('../controllers/jobsController.js');
 
   require("dotenv").config()
 
@@ -71,8 +72,13 @@ module.exports = function(express) {
   router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests)
   router.post("/send_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.sendFriendRequest)
   router.post("/accept_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.acceptFriendRequest) 
+  router.post("/cancel_friend_request",jwt({secret: process.env.SECRET_TOKEN}), friendsController.cancelFriendRequest)
+  router.post("/remove_friend",jwt({secret: process.env.SECRET_TOKEN}), friendsController.removeFriend)
 
-  
+
+// Jobs Routes
+  // router.get("/jobs",jwt({secret: process.env.SECRET_TOKEN}), jobsController.index)
+  // router.post("/jobs/post",jwt({secret: process.env.SECRET_TOKEN}), jobsController.create)
 
   return router
 }

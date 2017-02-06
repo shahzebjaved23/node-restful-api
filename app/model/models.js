@@ -7,7 +7,10 @@ var UserMeta = require('./User.js'),
     connection = require('../sequelize.js'),
     LikeMeta= require('./Like.js'),
     CommentMeta = require('./Comment.js'),
-    FeedMeta = require("./Feed.js");
+    FeedMeta = require("./Feed.js"),
+    JobMeta = require("./Job.js"),
+    JobApplicantMeta = require("./JobApplicant.js"),
+    JobCategoryMeta = require("./JobCategory.js");
 
 
 
@@ -18,7 +21,10 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
   Video = connection.define('videos', VideoMeta.attributes, VideoMeta.options),
   Like = connection.define('likes',LikeMeta.attributes,LikeMeta.options),
   Comment = connection.define('comments',CommentMeta.attributes,CommentMeta.options),
-  Feed = connection.define("feeds",FeedMeta.attributes,FeedMeta.options);
+  Feed = connection.define("feeds",FeedMeta.attributes,FeedMeta.options),
+  Job = connection.define("jobs",JobMeta.attributes,JobMeta.options),
+  JobApplicant = connection.define("job_applicants",JobApplicantMeta.attributes,JobApplicantMeta.options),
+  JobCategory = connection.define("job_categories",JobCategoryMeta.attributes,JobCategoryMeta.options);
 
 
 User.hasMany(Post);
@@ -29,6 +35,12 @@ Photo.belongsTo(User);
 Video.belongsTo(User);
 
 User.belongsToMany(User, { as: 'Friends', through: 'users_friends', foreignKey: 'userId' })
+
+User.hasMany(Job)
+
+Job.belongsTo(User,{foreignKey: "userId"})
+Job.belongsTo(JobCategory,{foreignKey: "job_category_id"})
+JobCategory.hasMany(Job)
 
 Post.hasMany(Like);
 Photo.hasMany(Like);
@@ -50,3 +62,6 @@ module.exports.Video = Video
 module.exports.Like = Like
 module.exports.Comment = Comment
 module.exports.Feed = Feed
+module.exports.Job = Job
+module.exports.JobApplicant = JobApplicant
+module.exports.JobCategory = JobCategory
