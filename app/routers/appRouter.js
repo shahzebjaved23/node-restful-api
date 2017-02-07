@@ -77,8 +77,13 @@ module.exports = function(express) {
 
 
 // Jobs Routes
-  // router.get("/jobs",jwt({secret: process.env.SECRET_TOKEN}), jobsController.index)
-  // router.post("/jobs/post",jwt({secret: process.env.SECRET_TOKEN}), jobsController.create)
+  router.get("/jobs/posted",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getPostedJobs)
+  router.get("/jobs/applied",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAppliedJobs)
+  router.get("/jobs",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAllJobs)
+  router.post("/jobs/post",jwt({secret: process.env.SECRET_TOKEN}), jobsController.create)
+
+  router.post("/resume",jwt({secret: process.env.SECRET_TOKEN}), jobsController.createResume)
+
 
   return router
 }

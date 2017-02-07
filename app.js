@@ -7,14 +7,12 @@ var express = require('express'),
   session = require('express-session'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
-  jsonParser = bodyParser.json({ limit: "50mb"})
+  jsonParser = bodyParser.json({ limit: "50mb"});
+var cors=require('cors');
 
-require('dotenv').config()
-
-var port = process.env.PORT || 8000
-
-app.use(cookieParser())
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }))
+app.use(cors({origin:true,credentials: true}));
+app.use(cookieParser());
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -22,27 +20,32 @@ app.use(function(req, res, next) {
   next();
 });
 
+require('dotenv').config();
 
+var port = process.env.PORT || 8000;
 
-app.use(flash())
+app.use(flash());
+
 app.use(function(req, res, next) {
   res.locals.errorMessage = req.flash('error')
   next()
 });
 
-app.use(jsonParser)
+app.use(jsonParser);
 
 app.use(bodyParser.urlencoded({
   extended: true
-}))
+}));
 
-setupPassport(app)
-app.use('/', appRouter)
-app.use("/public", express.static("public"))
+setupPassport(app);
+
+app.use('/', appRouter);
+
+app.use("/public", express.static("public"));
 
 // start app
 app.listen(port, () => {
   console.log('Server started on port ' + port);
-})
+});
 
 module.exports.getApp = app
