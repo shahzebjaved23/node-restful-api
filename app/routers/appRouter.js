@@ -34,7 +34,7 @@ module.exports = function(express) {
   
   router.put('/users/:id', jwt({secret: process.env.SECRET_TOKEN}), usersController.update);
   
-  router.post('/photos',  photosController.create);
+  router.post('/photos', jwt({secret: process.env.SECRET_TOKEN}) ,photosController.create);
   router.get('/photos', jwt({secret: process.env.SECRET_TOKEN}), photosController.index);
   
   router.get('/friends', jwt({secret: process.env.SECRET_TOKEN}), friendsController.index);

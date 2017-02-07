@@ -13,9 +13,11 @@ module.exports.index = function (req, res) {
 }
 module.exports.create = function(req, res) {
   let attrs = {}
+  console.log(req.user);
+  var userId = req.user.id;
   attrs['filePath'] = req.body.fileName;
   attrs["userId"] = req.user.id;
-  console.log(req.body);
+  console.log(req.user);
   Model.Photo.create(attrs)
     .then((photo) => {
       var data = req.body.fileData;
