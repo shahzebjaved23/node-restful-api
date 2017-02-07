@@ -10,15 +10,17 @@ var express = require('express'),
   jsonParser = bodyParser.json({ limit: "50mb"});
 var cors=require('cors');
 
-app.use(cors({origin:true,credentials: true}));
+
 app.use(cookieParser());
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", req.header.origin);
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
+
+app.use(cors({origin:true,credentials: true}));
 
 require('dotenv').config();
 
