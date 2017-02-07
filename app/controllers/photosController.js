@@ -13,11 +13,9 @@ module.exports.index = function (req, res) {
 }
 module.exports.create = function(req, res) {
   let attrs = {}
-  console.log(req.user);
-  var userId = req.user.id;
   attrs['filePath'] = req.body.fileName;
   attrs["userId"] = req.user.id;
-  console.log(req.user);
+  
   Model.Photo.create(attrs)
     .then((photo) => {
       var data = req.body.fileData;
@@ -26,7 +24,8 @@ module.exports.create = function(req, res) {
         if(error){
           console.log(error);
           return res.status(400).json({
-            error: error
+            error: error,
+            message: "error uploading the photo"
           });
         }else{
           // create a new feed
@@ -45,7 +44,8 @@ module.exports.create = function(req, res) {
     .catch((error) => {
       console.log(error);
       res.status(400).json({
-        error: error
+        error: error,
+        message: "error creating the photo"
       });
     });
 }
