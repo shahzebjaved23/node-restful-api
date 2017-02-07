@@ -12,7 +12,7 @@ module.exports.index = function (req, res) {
   })
 }
 module.exports.create = function(req, res) {
-  
+
   let attrs = {};
   attrs['filePath'] = req.body.fileName;
   attrs["userId"] = req.user.id;
@@ -22,13 +22,7 @@ module.exports.create = function(req, res) {
       var data = req.body.fileData;
       var dirName = 'public/uploads/photos/${photo.id}/${photo.filePath}';
       S3Upload.upload(dirName, data, function(error, data) {
-        if(error){
-          console.log(error);
-          return res.status(400).json({
-            error: error,
-            message: "error uploading the photo"
-          });
-        }else{
+        
           // create a new feed
           Model.Feed.create({
             photoId: photo.id,
