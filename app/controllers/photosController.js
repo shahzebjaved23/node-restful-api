@@ -22,7 +22,6 @@ module.exports.create = function(req, res) {
       var data = req.body.fileData;
       var dirName = 'public/uploads/photos/${photo.id}/${photo.filePath}';
       S3Upload.upload(dirName, data, function(error, data) {
-        
           // create a new feed
           Model.Feed.create({
             photoId: photo.id,
@@ -32,7 +31,6 @@ module.exports.create = function(req, res) {
           return res.status(200).json({
             photo: photo
           });
-        }
       });
 
     })
