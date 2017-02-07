@@ -11,8 +11,8 @@ module.exports = {
     */
     queryInterface.addColumn(
       'jobs',
-      'userId',
-      Sequelize.INTEGER
+      'status',
+      Sequelize.STRING
     )
   },
 
@@ -24,6 +24,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    queryInterface.removeColumn('jobs', 'userId')
+    queryInterface.removeColumn('jobs', 'status')
   }
 };

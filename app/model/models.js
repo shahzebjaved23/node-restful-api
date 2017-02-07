@@ -10,7 +10,12 @@ var UserMeta = require('./User.js'),
     FeedMeta = require("./Feed.js"),
     JobMeta = require("./Job.js"),
     JobApplicantMeta = require("./JobApplicant.js"),
-    JobCategoryMeta = require("./JobCategory.js");
+    JobCategoryMeta = require("./JobCategory.js"),
+    ResumeMeta = require('./Resume.js'),
+    ProjectMeta = require('./Project.js'),
+    ExperienceMeta = require('./Experience.js'),
+    DegreeMeta = require('./Degree.js');
+
 
 
 

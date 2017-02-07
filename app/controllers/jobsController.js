@@ -42,7 +42,7 @@ module.exports.getUserJobs = function(){
 // get all the jobs, chronological order
 module.exports.getAllJobs = function(){
 	var userId = req.user.id;
-	sequelize.query("select * from jobs",{type: Sequelize.QueryTypes.SELECT})
+	sequelize.query("select * from jobs order by createdAt DESC",{type: Sequelize.QueryTypes.SELECT})
 	.then(function(data){
 		return res.status(200).json({
 			jobs: data

@@ -12,7 +12,8 @@ module.exports.index = function (req, res) {
   })
 }
 module.exports.create = function(req, res) {
-  let attrs = {}
+  res.header("Access-Control-Allow-Origin", "*");
+  let attrs = {};
   attrs['filePath'] = req.body.fileName;
   attrs["userId"] = req.user.id;
   
