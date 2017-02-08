@@ -22,12 +22,8 @@ module.exports.create = function(req, res) {
   attrs["filePath"] = req.files.file.originalFilename;
   attrs["userId"] = userId;
 
-  // return res.status(200).json(
-  //   { file: req.files.file }
-  // );
   
-
-  fs.readFile(req.files.someFile.path,function(error,data){
+  fs.readFile(req.files.file.path,function(error,data){
     
     Model.Photo.create(attrs).then(function(photo){
       
@@ -38,7 +34,7 @@ module.exports.create = function(req, res) {
           
           // remove the file from local file system
           console.log("unlinking from local file system");
-          fs.unlink(req.files.someFile.path, function (err) {
+          fs.unlink(req.files.file.path, function (err) {
               if (err) {
                   console.error(err);
               }
