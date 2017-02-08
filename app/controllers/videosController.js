@@ -11,23 +11,31 @@ module.exports.index = function (req, res) {
     });
   })
 }
+
 module.exports.create = function(req, res) {
+  
   let attrs = {};
   attrs["userId"] = req.user.id;
   attrs["filePath"] = req.body.fileName;
-  Model.Video.create(attrs)
-    .then((video) => {
-      var data = req.body.fileData,
-        dirName = `public/uploads/videos/${video.id}/${video.filePath}`;
-      S3Upload.upload(dirName, data, function(error, data) {
-        return res.status(200).json({
-          video: video
-        });
-      });
-    }).catch( (error) => {
-      res.status(400).json({
-        error: error
-      });
-    });
+  attrs["fileData"] = req.body.fileData;
+
+  return res.status(200).json({
+    attrs: attrs
+  });
+
+  // Model.Video.create(attrs)
+  //   .then((video) => {
+  //     var data = req.body.fileData,
+  //       dirName = `public/uploads/videos/${video.id}/${video.filePath}`;
+  //     S3Upload.upload(dirName, data, function(error, data) {
+  //       return res.status(200).json({
+  //         video: video
+  //       });
+  //     });
+  //   }).catch( (error) => {
+  //     res.status(400).json({
+  //       error: error
+  //     });
+  //   });
 
 }
