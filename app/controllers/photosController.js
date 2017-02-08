@@ -23,7 +23,7 @@ module.exports.create = function(req, res) {
   attrs["userId"] = userId;
 
   return res.status(200).json(
-    req.files.file
+    { file: req.files.file }
   );
   
 
