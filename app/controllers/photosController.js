@@ -1,6 +1,9 @@
 "use strict";
 var Model = require('../model/models.js'),
   S3Upload = require('../modules/S3Upload.js');
+var formidable = require('formidable');
+var path = require('path');
+var fs = require('fs');
 
 module.exports.index = function (req, res) {
   Model.User.findById(req.user.id).then((user) => {
@@ -14,19 +17,25 @@ module.exports.index = function (req, res) {
 module.exports.create = function(req, res) {
 
   let attrs = {};
-  attrs['filePath'] = req.body.fileName;
+  attrs["filePath"] = req.files.someFile.originalFilename;
   attrs["userId"] = req.user.id;
   
-  Model.Photo.create(attrs)
+
+  fs.readFile(req.files.someFile.path,function(error,data){
+    
+    Model.Photo.create(attrs)
     .then((photo) => {
-      var data = req.body.fileData;
-      var dirName = 'public/uploads/photos/${photo.id}/${photo.filePath}';
+      var dirName = "public/uploads/photos/"+photo.id+"/"+photo.filePath;
+      console.log(dirName);
+      console.log("before the upload");
       S3Upload.upload(dirName, data, function(error, data) {
           // create a new feed
+          console.log("creating the feed");
           Model.Feed.create({
             photoId: photo.id,
-            userId: userId
+            userId: req.user.id
           });
+          console.log("creating the response 200");
           // send the response
           return res.status(200).json({
             photo: photo
@@ -36,11 +45,16 @@ module.exports.create = function(req, res) {
     })
     .catch((error) => {
       console.log(error);
-      res.status(400).json({
+      return res.status(400).json({
         error: error,
         message: "error creating the photo"
       });
     });
+  });
+
+  
+  
+  
 }
 
 module.exports.likes = function(req,res){

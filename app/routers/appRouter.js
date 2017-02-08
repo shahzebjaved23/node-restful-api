@@ -1,4 +1,8 @@
 "use strict";
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
 var passport = require('passport'),
   jwt = require('express-jwt'),
   SignInModule = require("./../modules/SignInModule"),
@@ -34,7 +38,7 @@ module.exports = function(express) {
   
   router.put('/users/:id', jwt({secret: process.env.SECRET_TOKEN}), usersController.update);
   
-  router.post('/photos', jwt({secret: process.env.SECRET_TOKEN}) ,photosController.create);
+  router.post('/photos',multipartMiddleware, jwt({secret: process.env.SECRET_TOKEN}) ,photosController.create);
   router.get('/photos', jwt({secret: process.env.SECRET_TOKEN}), photosController.index);
   
   router.get('/friends', jwt({secret: process.env.SECRET_TOKEN}), friendsController.index);

@@ -9,6 +9,11 @@ var express = require('express'),
   cookieParser = require('cookie-parser'),
   jsonParser = bodyParser.json({ limit: "50mb"});
   var cors = require('cors');
+  var path = require('path');
+  var formidable = require('formidable');
+  var fs = require('fs');
+  var multipart = require('connect-multiparty');
+  var multipartMiddleware = multipart();
 
 
 app.use(cookieParser());
@@ -28,6 +33,8 @@ require('dotenv').config();
 var port = process.env.PORT || 8000;
 
 app.use(flash());
+
+
 
 app.use(function(req, res, next) {
   res.locals.errorMessage = req.flash('error')
