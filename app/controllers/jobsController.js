@@ -12,7 +12,7 @@ gets all the jobs the user has applied for
 module.exports.getAppliedJobs = function(req,res){
 	var userId = req.user.id;
 
-	sequelize.query("select * from jobs where id in (select jobId from jobs_applicants where userId="+userId+" order by createdAt DESC)",{type: Sequelize.QueryTypes.SELECT })
+	sequelize.query("select * from jobs where id in (select jobId from jobs_applicants where userId="+userId+" order by createdAt DESC) and status='visible'",{type: Sequelize.QueryTypes.SELECT })
 	.then(function(data){
 		return res.status(200).json({
 			jobs: data
@@ -28,7 +28,7 @@ module.exports.getAppliedJobs = function(req,res){
 module.exports.getPostedJobs = function(req,res){
 	var userId = req.user.id;
 
-	sequelize.query("select * from jobs where userId="+userId+" order by createdAt DESC",{type: Sequelize.QueryTypes.SELECT }).then(function(data){
+	sequelize.query("select * from jobs where userId="+userId+" and status='visible' order by createdAt DESC",{type: Sequelize.QueryTypes.SELECT }).then(function(data){
 		return res.status(200).json({
 			jobs: data
 		})
@@ -42,7 +42,7 @@ module.exports.getPostedJobs = function(req,res){
 // get all the jobs, chronological order
 module.exports.getAllJobs = function(req,res){
 	var userId = req.user.id;
-	sequelize.query("select * from jobs order by createdAt DESC",{type: Sequelize.QueryTypes.SELECT})
+	sequelize.query("select * from jobs and status='visible' order by createdAt DESC",{type: Sequelize.QueryTypes.SELECT})
 	.then(function(data){
 		return res.status(200).json({
 			jobs: data
@@ -75,12 +75,14 @@ module.exports.create = function(req,res){
 	var summary = req.body.summary;
 	var company_name = req.body.company_name;
 	var job_category_id = req.body.job_category_id;
+	var status = req.body.status;
 
 	Model.Job.create({
 		userId: userId,
 		title: title,
 		summary: summary,
 		company_name: company_name,
+		status: status,
 		job_category_id: job_category_id
 	}).then(function(data){
 		return res.status(200).json({

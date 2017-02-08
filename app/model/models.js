@@ -29,7 +29,11 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
   Feed = connection.define("feeds",FeedMeta.attributes,FeedMeta.options),
   Job = connection.define("jobs",JobMeta.attributes,JobMeta.options),
   JobApplicant = connection.define("job_applicants",JobApplicantMeta.attributes,JobApplicantMeta.options),
-  JobCategory = connection.define("job_categories",JobCategoryMeta.attributes,JobCategoryMeta.options);
+  JobCategory = connection.define("job_categories",JobCategoryMeta.attributes,JobCategoryMeta.options),
+  Resume = connection.define("resumes",ResumeMeta.attributes,ResumeMeta.options),
+  Project = connection.define("projects",ProjectMeta.attributes,ProjectMeta.options),
+  Experience = connection.define("experiences",ExperienceMeta.attributes,ExperienceMeta.options),
+  Degree = connection.define("degrees",DegreeMeta.attributes,DegreeMeta.options);
 
 
 User.hasMany(Post);

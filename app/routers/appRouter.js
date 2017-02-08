@@ -69,20 +69,20 @@ module.exports = function(express) {
 
 // Friend Requests
 
-  router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests)
-  router.post("/send_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.sendFriendRequest)
-  router.post("/accept_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.acceptFriendRequest) 
-  router.post("/cancel_friend_request",jwt({secret: process.env.SECRET_TOKEN}), friendsController.cancelFriendRequest)
-  router.post("/remove_friend",jwt({secret: process.env.SECRET_TOKEN}), friendsController.removeFriend)
+  router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests);
+  router.post("/send_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.sendFriendRequest);
+  router.post("/accept_friend_request",jwt({secret: process.env.SECRET_TOKEN}),friendsController.acceptFriendRequest); 
+  router.post("/cancel_friend_request",jwt({secret: process.env.SECRET_TOKEN}), friendsController.cancelFriendRequest);
+  router.post("/remove_friend",jwt({secret: process.env.SECRET_TOKEN}), friendsController.removeFriend);
 
 
 // Jobs Routes
-  router.get("/jobs/posted",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getPostedJobs)
-  router.get("/jobs/applied",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAppliedJobs)
-  router.get("/jobs",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAllJobs)
-  router.post("/jobs/post",jwt({secret: process.env.SECRET_TOKEN}), jobsController.create)
+  router.get("/jobs/posted",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getPostedJobs);
+  router.get("/jobs/applied",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAppliedJobs);
+  router.get("/jobs",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAllJobs);
+  router.post("/jobs/post",jwt({secret: process.env.SECRET_TOKEN}), jobsController.create);
 
-  router.post("/resume",jwt({secret: process.env.SECRET_TOKEN}), jobsController.createResume)
+  router.post("/resume",jwt({secret: process.env.SECRET_TOKEN}), jobsController.createResume);
 
 
   return router
