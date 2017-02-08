@@ -19,7 +19,7 @@ module.exports.create = function(req, res) {
   var userId = req.user.id;
 
   let attrs = {};
-  attrs["filePath"] = req.files.someFile.originalFilename;
+  // attrs["filePath"] = req.files.someFile.originalFilename;
   attrs["userId"] = userId;
 
   return res.status(200).json({
