@@ -21,7 +21,8 @@ module.exports.create = function(req, res) {
 
   return res.status(200).json({
     fileName: req.body.fileName,
-    fileData: req.body.fileData
+    fileData: req.body.fileData,
+    video: req.files
   });
 
   // Model.Video.create(attrs)

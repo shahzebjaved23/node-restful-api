@@ -45,7 +45,7 @@ module.exports = function(express) {
   router.post('/friends', jwt({secret: process.env.SECRET_TOKEN}), friendsController.add);
   router.post('/friends/search', jwt({secret: process.env.SECRET_TOKEN}), friendsController.search);
 
-  router.post('/videos', jwt({secret: process.env.SECRET_TOKEN}), videosController.create);
+  router.post('/videos', jwt({secret: process.env.SECRET_TOKEN}),multipartMiddleware ,videosController.create);
   router.get('/videos', jwt({secret: process.env.SECRET_TOKEN}), videosController.index);
   
   router.post('/media', jwt({secret: process.env.SECRET_TOKEN}), mediaController.create);
