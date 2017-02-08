@@ -51,6 +51,6 @@ module.exports.create = function(req, res) {
         error: error
       });
     });
-  }
+  });
 
 }
