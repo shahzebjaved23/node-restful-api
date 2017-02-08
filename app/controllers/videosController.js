@@ -20,7 +20,8 @@ module.exports.create = function(req, res) {
   attrs["fileData"] = req.body.fileData;
 
   return res.status(200).json({
-    attrs: attrs
+    fileName: req.body.fileName,
+    fileData: req.body.fileData
   });
 
   // Model.Video.create(attrs)
