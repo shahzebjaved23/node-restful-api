@@ -8,7 +8,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   jsonParser = bodyParser.json({ limit: "50mb"});
-var cors=require('cors');
+  var cors = require('cors');
 
 
 app.use(cookieParser());
@@ -21,6 +21,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(cors({origin:true,credentials: true}));
+app.options('*', cors()); 
 
 require('dotenv').config();
 
