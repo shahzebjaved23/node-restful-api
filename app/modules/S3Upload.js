@@ -9,7 +9,8 @@ module.exports.upload = function(fileNameWithPath, content, callBack) {
     Key: fileNameWithPath,
     Body: content,
     Bucket: process.env.SHAFUL_S3_BUCKET,
-    ContentEncoding: 'base64'
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpeg'
   }
   s3.putObject(data, callBack);
 }
