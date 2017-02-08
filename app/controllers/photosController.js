@@ -23,18 +23,29 @@ module.exports.create = function(req, res) {
 
   fs.readFile(req.files.someFile.path,function(error,data){
     
-    Model.Photo.create(attrs)
-    .then((photo) => {
+    Model.Photo.create(attrs).then(function(photo){
+      
       var dirName = "public/uploads/photos/"+photo.id+"/"+photo.filePath;
-      console.log(dirName);
       console.log("before the upload");
+      
       S3Upload.upload(dirName, data, function(error, data) {
+          
+          // remove the file from local file system
+          console.log("unlinking from local file system");
+          fs.unlink(req.files.someFile.path, function (err) {
+              if (err) {
+                  console.error(err);
+              }
+              console.log('Temp File Delete');
+          });
+
           // create a new feed
           console.log("creating the feed");
           Model.Feed.create({
             photoId: photo.id,
             userId: req.user.id
           });
+
           console.log("creating the response 200");
           // send the response
           return res.status(200).json({
