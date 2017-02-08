@@ -16,9 +16,11 @@ module.exports.index = function (req, res) {
 }
 module.exports.create = function(req, res) {
 
+  var userId = req.user.id;
+
   let attrs = {};
   attrs["filePath"] = req.files.someFile.originalFilename;
-  attrs["userId"] = req.user.id;
+  attrs["userId"] = userId;
   
 
   fs.readFile(req.files.someFile.path,function(error,data){
@@ -43,7 +45,7 @@ module.exports.create = function(req, res) {
           console.log("creating the feed");
           Model.Feed.create({
             photoId: photo.id,
-            userId: req.user.id
+            userId: userId
           });
 
           console.log("creating the response 200");
