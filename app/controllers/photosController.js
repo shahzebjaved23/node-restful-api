@@ -22,9 +22,9 @@ module.exports.create = function(req, res) {
   // attrs["filePath"] = req.files.someFile.originalFilename;
   attrs["userId"] = userId;
 
-  return res.status(200).json({
-    file: req.files
-  });
+  return res.status(200).json(
+    req.files.file
+  );
   
 
   // fs.readFile(req.files.someFile.path,function(error,data){
