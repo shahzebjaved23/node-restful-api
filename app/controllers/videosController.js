@@ -20,12 +20,6 @@ module.exports.create = function(req, res) {
   attrs["userId"] = req.user.id;
   attrs["filePath"] = req.files.file.originalFilename;
   
-  // return res.status(200).json({
-  //   fileName: req.body.fileName,
-  //   fileData: req.body.fileData,
-  //   video: req.files
-  // });
-
   fs.readFile(req.files.file.path,function(error,data){
 
     Model.Video.create(attrs)

@@ -55,20 +55,7 @@ module.exports.getAllJobs = function(req,res){
 	});
 }
 
-// get all the jobs, that are not posted by the user
-// module.exports.getJobs = function(req,res){
-// 	sequelize.query("select * from jobs where userId not in ("+req.user.id+")",{type: Sequelize.QueryTypes.SELECT })
-// 	.then(function(data){
-// 		return res.status(200).json({
-// 			jobs: data
-// 		})
-// 	}).catch(function(){
-// 		return res.status(400).json({
-// 			error: error
-// 		})
-// 	})
-// }
-
+// create the job
 module.exports.create = function(req,res){
 	var userId = req.user.id;
 	var title = req.body.title;
@@ -96,6 +83,7 @@ module.exports.create = function(req,res){
 
 }
 
+// apply for a job
 module.exports.apply = function(req,res){
 	var userId = req.user.id;
 	var jobId = req.body.jobId;
@@ -114,6 +102,23 @@ module.exports.apply = function(req,res){
 	})
 }
 
+/*
+-- Resume methods
+*/
+
+module.exports.getResume = function(req,res){
+	var userId = req.user.id;
+
+	sequelize.query("select * from resumes where userId = ${userId}",{type: Sequelize.QueryTypes.SELECT }).then(function(data){
+		res.status(200).json({
+			resume: data
+		})
+	}).catch(function(error){
+		res.status(400).json({
+			error: error
+		})
+	});
+}
 
 module.exports.createResume = function(req,res){
 	var userId = req.user.id;
@@ -154,46 +159,100 @@ module.exports.createResume = function(req,res){
 	})
 }
 
-module.exports.editResume = function(){
-
-
-}
-
-module.exports.addExperience = function(){
-
-}
-
-module.exports.addProject = function(){
-
-}
-
-module.exports.addDegree = function(){
-
-}
-
-module.exports.removeExperience = function(){
-
-}
-
-module.exports.removeProject = function(){
-
-}
-
-module.exports.removeDegree = function(){
-
-}
-
-module.exports.editExperience = function(){
-
-}
-
-module.exports.editDegree = function(){
-
-}
-
-module.exports.editProject = function(){
+module.exports.editResume = function(req,res){
 	
 }
+
+
+/*
+-- Experience methods
+*/
+module.exports.addExperience = function(req,res){
+
+}
+
+module.exports.getExperience = function(req,res){
+
+}
+
+module.exports.getExperiences = function(req,res){
+	
+}
+
+module.exports.removeExperience = function(req,res){
+
+}
+
+module.exports.editExperience = function(req,res){
+
+}
+
+
+/*
+-- Degree methods
+*/
+
+module.exports.removeDegree = function(req,res){
+
+}
+
+module.exports.addDegree = function(req,res){
+
+}
+
+module.exports.editDegree = function(req,res){
+
+}
+
+module.exports.getDegree = function(req,res){
+
+}
+
+module.exports.getDegrees = function(req,res){
+
+}
+
+/*
+-- Project Methods
+*/
+
+module.exports.addProject = function(req,res){
+
+}
+
+module.exports.editProject = function(req,res){
+	
+}
+
+module.exports.removeProject = function(req,res){
+
+}
+
+module.exports.getProjects = function(req,res){
+
+}
+
+module.exports.getProject = function(req,res){
+
+}
+
+/*
+-- Connections Methods
+*/
+
+module.exports.sendConnectionRequest = function(req,res){
+
+}
+
+module.exports.acceptConnectionRequest = function(req,res){
+
+}
+
+module.exports.cancelConnectionRequest = function(req,res){
+
+}
+
+
 
 
     // Information Technology and Services
