@@ -21,52 +21,53 @@ module.exports.create = function(req, res) {
   let attrs = {};
   attrs["filePath"] = req.files.someFile.originalFilename;
   attrs["userId"] = userId;
-  
 
-  fs.readFile(req.files.someFile.path,function(error,data){
-    
-    Model.Photo.create(attrs).then(function(photo){
-      
-      var dirName = "public/uploads/photos/"+photo.id+"/"+photo.filePath;
-      console.log("before the upload");
-      
-      S3Upload.upload(dirName, data, function(error, data) {
-          
-          // remove the file from local file system
-          console.log("unlinking from local file system");
-          fs.unlink(req.files.someFile.path, function (err) {
-              if (err) {
-                  console.error(err);
-              }
-              console.log('Temp File Delete');
-          });
-
-          // create a new feed
-          console.log("creating the feed");
-          Model.Feed.create({
-            photoId: photo.id,
-            userId: userId
-          });
-
-          console.log("creating the response 200");
-          // send the response
-          return res.status(200).json({
-            photo: photo
-          });
-      });
-
-    })
-    .catch((error) => {
-      console.log(error);
-      return res.status(400).json({
-        error: error,
-        message: "error creating the photo"
-      });
-    });
+  return res.status(200).json({
+    file: req.files
   });
+  
 
-  
-  
+  // fs.readFile(req.files.someFile.path,function(error,data){
+    
+  //   Model.Photo.create(attrs).then(function(photo){
+      
+  //     var dirName = "public/uploads/photos/"+photo.id+"/"+photo.filePath;
+  //     console.log("before the upload");
+      
+  //     S3Upload.upload(dirName, data, function(error, data) {
+          
+  //         // remove the file from local file system
+  //         console.log("unlinking from local file system");
+  //         fs.unlink(req.files.someFile.path, function (err) {
+  //             if (err) {
+  //                 console.error(err);
+  //             }
+  //             console.log('Temp File Delete');
+  //         });
+
+  //         // create a new feed
+  //         console.log("creating the feed");
+  //         Model.Feed.create({
+  //           photoId: photo.id,
+  //           userId: userId
+  //         });
+
+  //         console.log("creating the response 200");
+  //         // send the response
+  //         return res.status(200).json({
+  //           photo: photo
+  //         });
+  //     });
+
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     return res.status(400).json({
+  //       error: error,
+  //       message: "error creating the photo"
+  //     });
+  //   });
+  // });
   
 }
 
