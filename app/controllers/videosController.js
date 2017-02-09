@@ -3,7 +3,7 @@ var Model = require('../model/models.js'),
   S3Upload = require('../modules/S3Upload.js');
 var path = require('path');
 var fs = require('fs');
-var ffmpeg = require("fluent-ffmpeg");
+// var ffmpeg = require("fluent-ffmpeg");
 
 module.exports.index = function (req, res) {
   Model.User.findById(req.user.id).then( (user) => {
@@ -41,7 +41,7 @@ module.exports.create = function(req, res) {
   
   
   fs.readFile(req.files.file.path,function(error,data){
-
+    console.log(data);
     Model.Video.create(attrs)
     .then((video) => {
       
