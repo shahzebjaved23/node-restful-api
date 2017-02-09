@@ -15,7 +15,11 @@ var passport = require('passport'),
   videosController = require('../controllers/videosController.js'),
   mediaController = require('../controllers/mediaController.js'),
   feedsController = require('../controllers/feedsController.js'),
-  jobsController = require('../controllers/jobsController.js');
+  jobsController = require('../controllers/jobsController.js'),
+  resumeController = require('../controllers/resumeController.js'),
+  projectsController = require('../controllers/projectsController.js'),
+  degreesController = require('../controllers/degreesController.js'),
+  experiencesController = require('../controllers/experiencesController.js');
 
   require("dotenv").config()
 
@@ -88,27 +92,27 @@ module.exports = function(express) {
   router.post("/jobs/jobId/apply",jwt({secret: process.env.SECRET_TOKEN}), jobsController.apply);
   router.get("/jobs/applicants",jwt({secret: process.env.SECRET_TOKEN}),jobsController.getJobApplicants)
 
-  router.post("/resume", jwt({secret: process.env.SECRET_TOKEN}), jobsController.createResume);
-  router.get("/resume", jwt({secret: process.env.SECRET_TOKEN}), jobsController.getResume);
-  router.put("/resume/edit", jwt({secret: process.env.SECRET_TOKEN}), jobsController.editResume);
+  router.post("/resume", jwt({secret: process.env.SECRET_TOKEN}), resumeController.createResume);
+  router.get("/resume", jwt({secret: process.env.SECRET_TOKEN}), resumeController.getResume);
+  router.put("/resume/edit", jwt({secret: process.env.SECRET_TOKEN}), resumeController.editResume);
 
-  router.post("/experiences/add", jwt({secret: process.env.SECRET_TOKEN}), jobsController.addExperience);
-  router.put("/experiences/:experienceId/edit",jwt({secret: process.env.SECRET_TOKEN}), jobsController.editExperience);
-  router.get("/experiences/:experienceId",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getExperience);
-  router.get("/experiences",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getExperiences);
-  router.post("/experiences/:experienceId/remove",jwt({secret: process.env.SECRET_TOKEN}), jobsController.createResume);
+  router.post("/experiences/add", jwt({secret: process.env.SECRET_TOKEN}), experiencesController.addExperience);
+  router.put("/experiences/:experienceId/edit",jwt({secret: process.env.SECRET_TOKEN}), experiencesController.editExperience);
+  router.get("/experiences/:experienceId",jwt({secret: process.env.SECRET_TOKEN}), experiencesController.getExperience);
+  router.get("/experiences",jwt({secret: process.env.SECRET_TOKEN}), experiencesController.getExperiences);
+  router.post("/experiences/:experienceId/remove",jwt({secret: process.env.SECRET_TOKEN}), experiencesController.removeExperience);
 
-  router.post("/projects/add", jwt({secret: process.env.SECRET_TOKEN}), jobsController.addProject);
-  router.put("/projects/:projectId/edit",jwt({ secret: process.env.SECRET_TOKEN}), jobsController.editProject);
-  router.post("/projects/:projectId/remove",jwt({ secret: process.env.SECRET_TOKEN}), jobsController.removeProject);
-  router.get("/projects/:projectId",jwt({ secret: process.env.SECRET_TOKEN}), jobsController.getProject)
-  router.get("/projects", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.getProjects);
+  router.post("/projects/add", jwt({secret: process.env.SECRET_TOKEN}), projectsController.addProject);
+  router.put("/projects/:projectId/edit",jwt({ secret: process.env.SECRET_TOKEN}), projectsController.editProject);
+  router.post("/projects/:projectId/remove",jwt({ secret: process.env.SECRET_TOKEN}), projectsController.removeProject);
+  router.get("/projects/:projectId",jwt({ secret: process.env.SECRET_TOKEN}), projectsController.getProject)
+  router.get("/projects", jwt({ secret: process.env.SECRET_TOKEN}), projectsController.getProjects);
 
-  router.post("/degrees/add", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.addDegree);
-  router.put("/degrees/:degreeId/edit", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.editDegree);
-  router.post("/degrees/:degreeId/remove", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.removeDegree);
-  router.get("/degrees/:degreeId", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.getDegree);
-  router.get("/degrees/", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.getDegrees);
+  router.post("/degrees/add", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.addDegree);
+  router.put("/degrees/:degreeId/edit", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.editDegree);
+  router.post("/degrees/:degreeId/remove", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.removeDegree);
+  router.get("/degrees/:degreeId", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.getDegree);
+  router.get("/degrees/", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.getDegrees);
 
   router.post("/send_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.sendConnectionRequest);
   router.post("/accept_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.acceptConnectionRequest);
