@@ -3,6 +3,7 @@ var Model = require('../model/models.js'),
   S3Upload = require('../modules/S3Upload.js');
 var path = require('path');
 var fs = require('fs');
+// var ffmpeg = require("fluent-ffmpeg");
 
 module.exports.index = function (req, res) {
   Model.User.findById(req.user.id).then( (user) => {
@@ -19,13 +20,25 @@ module.exports.create = function(req, res) {
   let attrs = {};
   attrs["userId"] = req.user.id;
   attrs["filePath"] = req.files.file.originalFilename;
+
+   // var proc = new ffmpeg(req.files.file.path)
+   //    .takeScreenshots({
+   //        count: 1,
+   //        timemarks: [ '200' ] // number of seconds
+   //      }, 'thumbnail.jpg', function(err) {
+   //      console.log('screenshots were saved')
+   //    });
+  
   
   fs.readFile(req.files.file.path,function(error,data){
 
     Model.Video.create(attrs)
     .then((video) => {
+      
       var dirName = `public/uploads/videos/${video.id}/${video.filePath}`;
+      
       S3Upload.upload(dirName, data, function(error, data) {
+
         
         // unlink the file in temp storage
         fs.unlink(req.files.file.path, function (err) {

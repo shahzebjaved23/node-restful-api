@@ -74,3 +74,7 @@ module.exports.Feed = Feed
 module.exports.Job = Job
 module.exports.JobApplicant = JobApplicant
 module.exports.JobCategory = JobCategory
+module.exports.Resume = Resume
+module.exports.Project = Project
+module.exports.Degree = Degree
+module.exports.Experience = Experience

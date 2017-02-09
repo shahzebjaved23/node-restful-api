@@ -16,6 +16,9 @@ var attributes = {
   filePath: {
     type: Sequelize.STRING,
   },
+  thumbnailPath: {
+    type: Sequelize.STRING,
+  },
   userId: {
     type: Sequelize.INTEGER,
     references: {
@@ -27,6 +30,13 @@ var attributes = {
     type: Sequelize.VIRTUAL,
     get: function(){
       var fileName = `public/uploads/videos/${this.get('id')}/${this.get('filePath')}`
+      return `https://${process.env.SHAFUL_S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    }
+  },
+  thumbnailUrl: {
+    type: Sequelize.VIRTUAL,
+    get: function(){
+      var fileName = `public/uploads/videos/${this.get('id')}/${this.get('thumbnailPath')}`
       return `https://${process.env.SHAFUL_S3_BUCKET}.s3.amazonaws.com/${fileName}`
     }
   }

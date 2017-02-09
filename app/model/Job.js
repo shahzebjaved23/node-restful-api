@@ -28,6 +28,9 @@ var attributes = {
   },
   userId:{
     type: Sequelize.INTEGER
+  },
+  status:{
+    type: Sequelize.STRING
   }
 }
 
