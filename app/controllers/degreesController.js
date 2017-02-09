@@ -6,7 +6,7 @@ var Model = require('../model/models.js'),
 var sequelize = require("../sequelize.js");
 
 module.exports.removeDegree = function(req,res){
-	Model.Degree.findOne(req.params.degreeId).then(function(degree){
+	Model.Degree.findById(req.params.degreeId).then(function(degree){
 		degree.destroy().then(function(){
 			return res.status(200).json({
 				message: "degree removed successfully"
@@ -37,7 +37,8 @@ module.exports.addDegree = function(req,res){
 			field: req.body.field,
 			institution: req.body.institution,
 			start_year: req.body.start_year,
-			end_year: req.body.end_year
+			end_year: req.body.end_year,
+			resume_id: resume.id
 		};
 		Model.Degree.create(attrs).then(function(degree){
 			return res.status(200).json({
@@ -56,7 +57,7 @@ module.exports.addDegree = function(req,res){
 }
 
 module.exports.editDegree = function(req,res){
-	Model.Degree.findOne(req.params.degreeId).then(function(degree){
+	Model.Degree.findById(req.params.degreeId).then(function(degree){
 		var attrs = {
 			title: req.body.title,
 			description: req.body.description,
@@ -102,19 +103,27 @@ module.exports.getDegrees = function(req,res){
 			userId: req.user.id
 		}
 	}).then(function(resume){
-		Model.Degree.findAll({
-			where: {
-				resume_id: resume.id
-			}
-		}).then(function(degrees){
-			return res.status(200).json({
-				degrees: degrees
+
+		if(resume != null ){
+			Model.Degree.findAll({
+				where: {
+					resume_id: resume.id
+				}
+			}).then(function(degrees){
+				return res.status(200).json({
+					degrees: degrees
+				})	
+			}).catch(function(){
+				return res.status(400).json({
+					error: error
+				})
 			})	
-		}).catch(function(){
+		}else{
 			return res.status(400).json({
-				error: error
+				message: "you donot have a resume"
 			})
-		})
+		}
+		
 	}).catch(function(){
 		return res.status(400).json({
 			error: error

@@ -112,7 +112,7 @@ module.exports = function(express) {
   router.put("/degrees/:degreeId/edit", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.editDegree);
   router.post("/degrees/:degreeId/remove", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.removeDegree);
   router.get("/degrees/:degreeId", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.getDegree);
-  router.get("/degrees/", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.getDegrees);
+  router.get("/degrees", jwt({ secret: process.env.SECRET_TOKEN}), degreesController.getDegrees);
 
   router.post("/send_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.sendConnectionRequest);
   router.post("/accept_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.acceptConnectionRequest);

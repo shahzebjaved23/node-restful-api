@@ -97,7 +97,7 @@ module.exports.removeExperience = function(req,res){
 
 module.exports.editExperience = function(req,res){
 	
-	Model.Experience.findOne(req.params.experienceId).then(function(experience){
+	Model.Experience.findById(req.params.experienceId).then(function(experience){
 		
 		var attrs = {
 			title: req.body.title,
