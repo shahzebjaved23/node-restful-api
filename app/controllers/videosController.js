@@ -3,7 +3,7 @@ var Model = require('../model/models.js'),
   S3Upload = require('../modules/S3Upload.js');
 var path = require('path');
 var fs = require('fs');
-// var ffmpeg = require("fluent-ffmpeg");
+var ffmpeg = require("fluent-ffmpeg");
 
 module.exports.index = function (req, res) {
   Model.User.findById(req.user.id).then( (user) => {
@@ -25,9 +25,19 @@ module.exports.create = function(req, res) {
    //    .takeScreenshots({
    //        count: 1,
    //        timemarks: [ '200' ] // number of seconds
-   //      }, 'thumbnail.jpg', function(err) {
-   //      console.log('screenshots were saved')
+   //      }, './thumbnails/', function(err) {
+   //      console.log('screenshots were saved');
+
+   //      fs.readFile("./thumbnails/tn.png",function(error,data){
+   //        console.log(data);
+   //      });
    //    });
+
+   //    fs.readFile("./thumbnails/tn.png",function(error,data){
+   //        console.log(data);
+   //      });
+
+   // ISSUE: The callback dosent get called
   
   
   fs.readFile(req.files.file.path,function(error,data){
