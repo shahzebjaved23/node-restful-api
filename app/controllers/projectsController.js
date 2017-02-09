@@ -1,3 +1,10 @@
+"use strict";
+var Model = require('../model/models.js'),
+  Sequelize = require('sequelize'),
+  _ = require('lodash');
+
+var sequelize = require("../sequelize.js");
+
 module.exports.addProject = function(req,res){
 
 }

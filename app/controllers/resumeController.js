@@ -45,6 +45,12 @@ module.exports.createResume = function(req,res){
 		}
 	})
 }
+"use strict";
+var Model = require('../model/models.js'),
+  Sequelize = require('sequelize'),
+  _ = require('lodash');
+
+var sequelize = require("../sequelize.js");
 
 module.exports.editResume = function(req,res){
 	

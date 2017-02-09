@@ -1,3 +1,10 @@
+"use strict";
+var Model = require('../model/models.js'),
+  Sequelize = require('sequelize'),
+  _ = require('lodash');
+
+var sequelize = require("../sequelize.js");
+
 module.exports.removeDegree = function(req,res){
 	Model.Degree.findOne(req.params.degreeId).then(function(degree){
 		degree.destroy().then(function(){
