@@ -1,6 +1,7 @@
 "use strict";
 var bcrypt = require('bcrypt'),
-    Model = require('../model/models.js')
+    Model = require('../model/models.js'),
+    jwt = require("jsonwebtoken");
 
 module.exports.show = function(req, res) {
   res.render('signup')
@@ -40,10 +41,19 @@ module.exports.signup = function(req, res) {
 
   }
   Model.User.create(newUser).then(function() {
+
+    var token = jwt.sign({
+        id: newUser.id
+      }, process.env.SECRET_TOKEN, {
+        expiresIn: 3200
+      });
+      
+
     return res.status(200).json({
       status: "success",
       id: newUser.id,
       username: newUser.username,
+      token: token
     });
 
   }).catch(function(error) {
