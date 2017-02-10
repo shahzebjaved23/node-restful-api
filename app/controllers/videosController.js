@@ -21,46 +21,40 @@ module.exports.create = function(req, res) {
   attrs["userId"] = req.user.id;
   attrs["filePath"] = req.files.file.originalFilename;
   attrs["thumbnailPath"] = "screenshot.png"
-
-   // var proc = new ffmpeg(req.files.file.path)
-   //    .takeScreenshots({
-   //        count: 1,
-   //        timemarks: [ '200' ] // number of seconds
-   //      }, './thumbnails/', function(err){
-   //      console.log('screenshots were saved');
-   //      fs.readFile('./thumbnails/tn.png',function(error,data){
-   //        console.log(data);
-   //      })
-
-   //    }.bind(this));
-
   
-  // generate the thumbnail and upload
-  
-  
-  
+  // read file and generate the buffer data
   fs.readFile(req.files.file.path,function(error,data){
+    
     console.log(data);
-    Model.Video.create(attrs)
-    .then((video) => {
+    
+    // create the video data in database
+    Model.Video.create(attrs).then((video) => {
       
       var dirName = `public/uploads/videos/${video.id}/${video.filePath}`;
       
-      S3Upload.upload(dirName, data, function(error, data) {
+      // upload the video to s3
+      S3Upload.uploadVideo(dirName, data, function(error, data) {
 
+        // create the screenshot 
         require('child_process').exec('ffmpeg -ss 00:00:25 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './screenshot.png', function () {
+            
             console.log('Saved the thumb to:', './screenshot.png');
+            
+            // read the screen shot and generate the buffer data
             fs.readFile('./screenshot.png',function(error,data){
               console.log(data);
               
               var dirName = `public/uploads/videos/${video.id}/${video.thumbnailPath}`;
               
+              // upload the thumbnail to s3
               S3Upload.upload(dirName, data, function(error, data) {
                   
+                  // unlink the screenshot
                   fs.unlink("./screenshot.png", function (err) {
                     if (err) {
                       console.error(err);
                     }
+                    
                     console.log('Temp screenshot File Delete');
                     // unlink the file in temp storage
                     fs.unlink(req.files.file.path, function (err) {
@@ -74,10 +68,6 @@ module.exports.create = function(req, res) {
               })
             })
         });
-
-        
-        
-        
 
         // return the response
         return res.status(200).json({
