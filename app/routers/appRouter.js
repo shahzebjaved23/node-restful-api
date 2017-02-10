@@ -42,7 +42,7 @@ module.exports = function(express) {
   router.post('/posts/add', jwt({secret: process.env.SECRET_TOKEN}), postsController.add );
   router.get('/posts/:id',jwt({secret: process.env.SECRET_TOKEN}),postsController.show );
   
-  router.put('/users/:id', jwt({secret: process.env.SECRET_TOKEN}), usersController.update);
+  router.put('/users/:id', jwt({secret: process.env.SECRET_TOKEN}), multipartMiddleware ,usersController.update);
   
   router.post('/photos',jwt({secret: process.env.SECRET_TOKEN}),multipartMiddleware ,photosController.create);
   router.get('/photos', jwt({secret: process.env.SECRET_TOKEN}), photosController.index);
