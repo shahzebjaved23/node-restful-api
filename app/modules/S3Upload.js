@@ -24,8 +24,7 @@ module.exports.uploadVideo = function(fileNameWithPath, content, callBack) {
     Key: fileNameWithPath,
     Body: content,
     Bucket: process.env.SHAFUL_S3_BUCKET,
-    ContentEncoding: 'base64',
-    ContentType: 'video/*'
+    ContentEncoding: 'base64'
   }
   s3.putObject(data, callBack);
 }
