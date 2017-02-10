@@ -27,15 +27,16 @@ module.exports.add = function(req, res) {
         feedType: "Post",
         feedTypeId: post.id,
         url: "/posts/"+post.id
+      }).then(function(){
+        // send the response
+        return res.status(200).json({
+          post: post,
+          user: user
+        });  
       })
 
-      // send the response
-      return res.status(200).json({
-        post: post,
-        user: user
-      });
-    })
-      .catch(function(error){
+      
+    }).catch(function(error){
         return res.status(400).json({
           error: error
         });

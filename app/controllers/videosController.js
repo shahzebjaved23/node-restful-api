@@ -67,18 +67,21 @@ module.exports.create = function(req, res) {
                         feedType: "Video",
                         feedTypeId: video.id,
                         url: video.publicUrl
-                      })
+                      }).then(function(){
+                         // return the response
+                        return res.status(200).json({
+                          video: video
+                        });
+                      }).catch( (error) => {
+                        res.status(400).json({
+                          error: error
+                        });
+                      });
                       console.log('Temp File Delete');
                     });
                   });
-
               })
             })
-        });
-
-        // return the response
-        return res.status(200).json({
-          video: video
         });
       });
     }).catch( (error) => {

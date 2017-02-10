@@ -47,13 +47,15 @@ module.exports.create = function(req, res) {
             feedType: "Photo",
             feedTypeId: photo.id,
             url: photo.publicUrl
+          }).then(function(){
+            console.log("creating the response 200");
+            // send the response
+            return res.status(200).json({
+              photo: photo
+            });  
           });
 
-          console.log("creating the response 200");
-          // send the response
-          return res.status(200).json({
-            photo: photo
-          });
+          
       });
 
     })
