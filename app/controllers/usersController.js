@@ -19,7 +19,7 @@ module.exports.update = function(req, res) {
       
       if(attrs["profile_image_name"]){
         fs.readFile(req.files.file.path,function(error,data){
-          var dirName = 'public/uploads/users/' + req.user.id + '/' + attrs["file"];
+          var dirName = 'public/uploads/users/' + req.user.id + '/' + attrs["profile_image_name"];
           S3Upload.upload(dirName, data, function(err, data){
             fs.unlink(req.files.file.path,function(){
               Model.User.findById(req.user.id).then((user) => {
