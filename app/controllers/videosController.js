@@ -39,34 +39,34 @@ module.exports.create = function(req, res) {
    // ISSUE: The callback dosent get called
   
   
-  // fs.readFile(req.files.file.path,function(error,data){
-  //   console.log(data);
-  //   Model.Video.create(attrs)
-  //   .then((video) => {
+  fs.readFile(req.files.file.path,function(error,data){
+    console.log(data);
+    Model.Video.create(attrs)
+    .then((video) => {
       
-  //     var dirName = `public/uploads/videos/${video.id}/${video.filePath}`;
+      var dirName = `public/uploads/videos/${video.id}/${video.filePath}`;
       
-  //     S3Upload.upload(dirName, data, function(error, data) {
+      S3Upload.upload(dirName, data, function(error, data) {
 
         
-  //       // unlink the file in temp storage
-  //       fs.unlink(req.files.file.path, function (err) {
-  //         if (err) {
-  //             console.error(err);
-  //         }
-  //         console.log('Temp File Delete');
-  //       });
+        // unlink the file in temp storage
+        fs.unlink(req.files.file.path, function (err) {
+          if (err) {
+              console.error(err);
+          }
+          console.log('Temp File Delete');
+        });
 
-  //       // return the response
-  //       return res.status(200).json({
-  //         video: video
-  //       });
-  //     });
-  //   }).catch( (error) => {
-  //     res.status(400).json({
-  //       error: error
-  //     });
-  //   });
-  // });
+        // return the response
+        return res.status(200).json({
+          video: video
+        });
+      });
+    }).catch( (error) => {
+      res.status(400).json({
+        error: error
+      });
+    });
+  });
 
 }
