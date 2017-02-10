@@ -80,6 +80,7 @@ module.exports = function(express) {
   router.post("/profile",jwt({secret: process.env.SECRET_TOKEN}),profilesController.create);
   router.put("/profile",jwt({secret: process.env.SECRET_TOKEN}), profilesController.update);
   router.get("/profile",jwt({secret: process.env.SECRET_TOKEN}), profilesController.getProfile);
+  
 // Friend Requests
 
   router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests);
