@@ -37,7 +37,7 @@ module.exports.create = function(req, res) {
       S3Upload.uploadVideo(dirName, data, function(error, data) {
 
         // create the screenshot 
-        require('child_process').exec('ffmpeg -ss 00:00:10 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './screenshot.png', function () {
+        require('child_process').exec('ffmpeg -ss 00:00:2 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './screenshot.png', function () {
             // console.log(error);
             
             console.log('Saved the thumb to:', './screenshot.png');
