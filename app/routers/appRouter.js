@@ -38,8 +38,9 @@ module.exports = function(express) {
   router.post('/signup', signupController.signup);
   router.post('/signin', signinController.signin);
   
-  router.get('/posts', jwt({secret: process.env.SECRET_TOKEN}), postsController.index);
-  router.post('/posts/add', jwt({secret: process.env.SECRET_TOKEN}), postsController.add);
+  router.get('/posts', jwt({secret: process.env.SECRET_TOKEN}), postsController.index );
+  router.post('/posts/add', jwt({secret: process.env.SECRET_TOKEN}), postsController.add );
+  router.get('/posts/:id',jwt({secret: process.env.SECRET_TOKEN}),postsController.show );
   
   router.put('/users/:id', jwt({secret: process.env.SECRET_TOKEN}), usersController.update);
   
@@ -80,7 +81,7 @@ module.exports = function(express) {
   router.post("/profile",jwt({secret: process.env.SECRET_TOKEN}),profilesController.create);
   router.put("/profile",jwt({secret: process.env.SECRET_TOKEN}), profilesController.update);
   router.get("/profile",jwt({secret: process.env.SECRET_TOKEN}), profilesController.getProfile);
-  
+
 // Friend Requests
 
   router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests);

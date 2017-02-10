@@ -63,6 +63,11 @@ module.exports.create = function(req, res) {
                       if (err) {
                           console.error(err);
                       }
+                      Model.Feed.create({
+                        feedType: "Video",
+                        feedTypeId: video.id,
+                        url: video.publicUrl
+                      })
                       console.log('Temp File Delete');
                     });
                   });

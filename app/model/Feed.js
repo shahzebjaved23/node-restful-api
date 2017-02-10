@@ -20,19 +20,14 @@ var attributes = {
       key: "id"
     }
   },
-  postId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: "Post",
-      key: "id"
-    }
+  feedType:{
+    type: Sequelize.STRING
   },
-  photoId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: "Photo",
-      key: "id"
-    }
+  feedTypeId: {
+    type: Sequelize.INTEGER
+  },
+  url:{
+    type: Sequelize.STRING
   }
 }
 

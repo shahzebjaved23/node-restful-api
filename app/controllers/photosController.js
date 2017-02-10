@@ -44,8 +44,9 @@ module.exports.create = function(req, res) {
           // create a new feed
           console.log("creating the feed");
           Model.Feed.create({
-            photoId: photo.id,
-            userId: userId
+            feedType: "Photo",
+            feedTypeId: photo.id,
+            url: photo.publicUrl
           });
 
           console.log("creating the response 200");

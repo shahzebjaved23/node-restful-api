@@ -47,6 +47,8 @@ module.exports.signup = function(req, res) {
       }, process.env.SECRET_TOKEN, {
         expiresIn: 3200
       });
+
+    Model.Profile.create({userId: newUser.id})
       
 
     return res.status(200).json({

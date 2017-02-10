@@ -21,7 +21,7 @@ module.exports.feeds = function(req,res){
 
 			if (friends_ids.length > 0){
 				// get the posts and photos of the friends_ids
-				sequelize.query("SELECT * from feeds where userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT}).then( (feeds)=>{
+				sequelize.query("SELECT * from feeds where userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (feeds)=>{
 						return res.status(200).json({
 							feeds:feeds
 						});

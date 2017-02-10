@@ -13,7 +13,6 @@ module.exports.index = function(req, res) {
 }
 
 module.exports.add = function(req, res) {
-  
   var postAttributes = {};
   var userId = req.user.id;
   postAttributes["body"] = req.body.body;
@@ -25,9 +24,10 @@ module.exports.add = function(req, res) {
 
       // create the feed
       Model.Feed.create({
-        postId: post.id,
-        userId: userId
-      });
+        feedType: "Post",
+        feedTypeId: post.id,
+        url: "/posts/"+post.id
+      })
 
       // send the response
       return res.status(200).json({
@@ -41,6 +41,22 @@ module.exports.add = function(req, res) {
         });
       });
 
+  })
+}
+
+module.exports.show = function(req,res){
+  Model.Post.findOne({
+    where:{
+      id: req.params.id
+    }
+  }).then(function(post){
+    return res.status(200).json({
+      post: post
+    })
+  }).catch(function(error){
+    return res.status(400).json({
+      error: error
+    })
   })
 }
 
