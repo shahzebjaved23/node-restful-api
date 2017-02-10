@@ -20,6 +20,7 @@ module.exports.create = function(req, res) {
   let attrs = {};
   attrs["userId"] = req.user.id;
   attrs["filePath"] = req.files.file.originalFilename;
+  attrs["thumbnailPath"] = "screenshot.png"
 
    // var proc = new ffmpeg(req.files.file.path)
    //    .takeScreenshots({
@@ -27,16 +28,15 @@ module.exports.create = function(req, res) {
    //        timemarks: [ '200' ] // number of seconds
    //      }, './thumbnails/', function(err){
    //      console.log('screenshots were saved');
+   //      fs.readFile('./thumbnails/tn.png',function(error,data){
+   //        console.log(data);
+   //      })
 
-   //    });
+   //    }.bind(this));
 
-  // require('child_process').exec(('ffmpeg -ss 00:00:25 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './snapshots/'), function () {
-
-  //     console.log('Saved the thumb to:', './snapshots/');
-
-  // });
-
-   // ISSUE: The callback dosent get called
+  
+  // generate the thumbnail and upload
+  
   
   
   fs.readFile(req.files.file.path,function(error,data){
@@ -48,14 +48,36 @@ module.exports.create = function(req, res) {
       
       S3Upload.upload(dirName, data, function(error, data) {
 
-        
-        // unlink the file in temp storage
-        fs.unlink(req.files.file.path, function (err) {
-          if (err) {
-              console.error(err);
-          }
-          console.log('Temp File Delete');
+        require('child_process').exec('ffmpeg -ss 00:00:25 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './screenshot.png', function () {
+            console.log('Saved the thumb to:', './screenshot.png');
+            fs.readFile('./screenshot.png',function(error,data){
+              console.log(data);
+              
+              var dirName = `public/uploads/videos/${video.id}/${video.thumbnailPath}`;
+              
+              S3Upload.upload(dirName, data, function(error, data) {
+                  
+                  fs.unlink("./screenshot.png", function (err) {
+                    if (err) {
+                      console.error(err);
+                    }
+                    console.log('Temp screenshot File Delete');
+                    // unlink the file in temp storage
+                    fs.unlink(req.files.file.path, function (err) {
+                      if (err) {
+                          console.error(err);
+                      }
+                      console.log('Temp File Delete');
+                    });
+                  });
+
+              })
+            })
         });
+
+        
+        
+        
 
         // return the response
         return res.status(200).json({
