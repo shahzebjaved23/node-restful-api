@@ -23,6 +23,9 @@ module.exports = {
         },
         bio: {
           type: Sequelize.TEXT,
+        },
+        userId:{
+          type: Sequelize.INTEGER
         }
       }
     )

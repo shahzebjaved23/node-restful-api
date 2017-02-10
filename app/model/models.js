@@ -14,7 +14,8 @@ var UserMeta = require('./User.js'),
     ResumeMeta = require('./Resume.js'),
     ProjectMeta = require('./Project.js'),
     ExperienceMeta = require('./Experience.js'),
-    DegreeMeta = require('./Degree.js');
+    DegreeMeta = require('./Degree.js'),
+    ProfileMeta = require('./Profile.js');
 
 
 
@@ -33,7 +34,8 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
   Resume = connection.define("resumes",ResumeMeta.attributes,ResumeMeta.options),
   Project = connection.define("projects",ProjectMeta.attributes,ProjectMeta.options),
   Experience = connection.define("experiences",ExperienceMeta.attributes,ExperienceMeta.options),
-  Degree = connection.define("degrees",DegreeMeta.attributes,DegreeMeta.options);
+  Degree = connection.define("degrees",DegreeMeta.attributes,DegreeMeta.options),
+  Profile = connection.define("profiles",ProfileMeta.attributes,ProfileMeta.options);
 
 
 User.hasMany(Post);
@@ -46,6 +48,9 @@ Video.belongsTo(User);
 User.belongsToMany(User, { as: 'Friends', through: 'users_friends', foreignKey: 'userId' })
 
 User.hasMany(Job)
+
+User.hasOne(Profile)
+Profile.belongsTo(User)
 
 Job.belongsTo(User,{foreignKey: "userId"})
 Job.belongsTo(JobCategory,{foreignKey: "job_category_id"})
@@ -78,3 +83,4 @@ module.exports.Resume = Resume
 module.exports.Project = Project
 module.exports.Degree = Degree
 module.exports.Experience = Experience
+module.exports.Profile = Profile

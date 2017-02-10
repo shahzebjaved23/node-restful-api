@@ -19,7 +19,8 @@ var passport = require('passport'),
   resumeController = require('../controllers/resumeController.js'),
   projectsController = require('../controllers/projectsController.js'),
   degreesController = require('../controllers/degreesController.js'),
-  experiencesController = require('../controllers/experiencesController.js');
+  experiencesController = require('../controllers/experiencesController.js'),
+  profilesController = require('../controllers/profilesController');
 
   require("dotenv").config()
 
@@ -75,6 +76,10 @@ module.exports = function(express) {
 // user feeds
   router.get("/feeds",jwt({secret: process.env.SECRET_TOKEN}),feedsController.feeds);
 
+// Profile routes
+  router.post("/profile",jwt({secret: process.env.SECRET_TOKEN}),profilesController.create);
+  router.put("/profile",jwt({secret: process.env.SECRET_TOKEN}), profilesController.update);
+  router.get("/profile",jwt({secret: process.env.SECRET_TOKEN}), profilesController.getProfile);
 // Friend Requests
 
   router.get("/friend_requests",jwt({secret: process.env.SECRET_TOKEN}),friendsController.getFriendRequests);
