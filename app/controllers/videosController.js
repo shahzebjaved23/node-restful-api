@@ -3,7 +3,7 @@ var Model = require('../model/models.js'),
   S3Upload = require('../modules/S3Upload.js');
 var path = require('path');
 var fs = require('fs');
-var ffmpeg = require("fluent-ffmpeg");
+// var ffmpeg = require("fluent-ffmpeg");
 
 module.exports.index = function (req, res) {
   Model.User.findById(req.user.id).then( (user) => {
@@ -30,11 +30,11 @@ module.exports.create = function(req, res) {
 
    //    });
 
-  require('child_process').exec(('ffmpeg -ss 00:00:25 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './snapshots/'), function () {
+  // require('child_process').exec(('ffmpeg -ss 00:00:25 -i ' + req.files.file.path + ' -vframes 1 -q:v 2 ' + './snapshots/'), function () {
 
-      console.log('Saved the thumb to:', './snapshots/');
+  //     console.log('Saved the thumb to:', './snapshots/');
 
-  });
+  // });
 
    // ISSUE: The callback dosent get called
   
