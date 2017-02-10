@@ -55,17 +55,28 @@ module.exports.update = function(req,res){
 }
 
 module.exports.getProfile = function(req,res){
-	Model.Profile.findOne({
-		where: {
-			userId: req.user.id
-		}
-	}).then(function(profile){
-		return res.status(200).json({
-			profile: profile
-		})
-	}).catch(function(error){
-		return res.status(400).json({
-			error: error
+	// Model.Profile.findOne({
+	// 	where: {
+	// 		userId: req.user.id
+	// 	}
+	// },{include: [Model.User]}).then(function(profile){
+	// 	return res.status(200).json({
+	// 		profile: profile
+	// 	})
+	// }).catch(function(error){
+	// 	return res.status(400).json({
+	// 		error: error
+	// 	})
+	// })
+	Model.User.findById(req.user.id).then(function(user){
+		user.getProfile({include: [Model.User]}).then(function(profile){
+			return res.status(200).json({
+				profile: profile
+			})
+		}).catch(function(error){
+			return res.status(200).json({
+				error: error
+			})
 		})
 	})
 }
