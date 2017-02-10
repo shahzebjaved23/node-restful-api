@@ -24,6 +24,7 @@ module.exports.add = function(req, res) {
 
       // create the feed
       Model.Feed.create({
+        userId: req.user.id,
         feedType: "Post",
         feedTypeId: post.id,
         url: "/posts/"+post.id

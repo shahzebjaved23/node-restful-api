@@ -48,15 +48,14 @@ module.exports.signup = function(req, res) {
         expiresIn: 3200
       });
 
-    Model.Profile.create({userId: newUser.id})
-      
-
-    return res.status(200).json({
-      status: "success",
-      id: newUser.id,
-      username: newUser.username,
-      token: token
-    });
+    Model.Profile.create({userId: newUser.id}).then(function(){
+      return res.status(200).json({
+        status: "success",
+        id: newUser.id,
+        username: newUser.username,
+        token: token
+      });
+    })
 
   }).catch(function(error) {
     return res.status(400).json({
