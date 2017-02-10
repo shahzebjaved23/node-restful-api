@@ -42,20 +42,28 @@ module.exports.signup = function(req, res) {
   }
   Model.User.create(newUser).then(function() {
 
-    var token = jwt.sign({
-        id: newUser.id
-      }, process.env.SECRET_TOKEN, {
-        expiresIn: 3200
-      });
+    Model.User.findOne({
+      where:{
+        username: newUser.username
+      }
+    }).then(function(user){
+        var token = jwt.sign({
+          id: user.id
+        }, process.env.SECRET_TOKEN, {
+          expiresIn: 3200
+        });
 
-    Model.Profile.create({userId: newUser.id}).then(function(){
-      return res.status(200).json({
-        status: "success",
-        id: newUser.id,
-        username: newUser.username,
-        token: token
+      Model.Profile.create({userId: user.id}).then(function(){
+        return res.status(200).json({
+          status: "success",
+          id: newUser.id,
+          username: newUser.username,
+          token: token
+        });
       });
-    })
+    });
+
+    
 
   }).catch(function(error) {
     return res.status(400).json({
