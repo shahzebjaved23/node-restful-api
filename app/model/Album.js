@@ -13,28 +13,14 @@ var attributes = {
   updatedAt: {
     type: Sequelize.DATE
   },
-  albumId:{
-    type: Sequelize.INTEGER,
-    references: {
-      model: "Album",
-      key: "id"
-    } 
-  },
-  filePath: {
-    type: Sequelize.STRING,
+  name: {
+    type: Sequelize.STRING
   },
   userId: {
     type: Sequelize.INTEGER,
     references: {
       model: "User",
       key: "id"
-    }
-  },
-  publicUrl: {
-    type: Sequelize.VIRTUAL,
-    get: function(){
-      var fileName = `public/uploads/photos/${this.get('id')}/${this.get('filePath')}`
-      return `https://${process.env.SHAFUL_S3_BUCKET}.s3.amazonaws.com/${fileName}`
     }
   }
 }
@@ -44,5 +30,3 @@ var options = {}
 
 module.exports.attributes = attributes;
 module.exports.options = options;
-
- 

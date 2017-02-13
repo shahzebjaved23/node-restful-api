@@ -21,7 +21,8 @@ var passport = require('passport'),
   degreesController = require('../controllers/degreesController.js'),
   experiencesController = require('../controllers/experiencesController.js'),
   profilesController = require('../controllers/profilesController'),
-  eventsController = require('../controllers/eventsController.js');
+  eventsController = require('../controllers/eventsController.js'),
+  albumsController = require('../controllers/albumsController.js');
 
   require("dotenv").config()
 
@@ -137,7 +138,13 @@ module.exports = function(express) {
   router.get("/events/going",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getGoingEvents);
   router.get("/events/posted",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getUserEvents);
 
-
+// albums routes
+  router.post("/albums",jwt({secret: process.env.SECRET_TOKEN}), albumsController.create);
+  router.post("/albums/:albumId/delete",jwt({secret: process.env.SECRET_TOKEN}), albumsController.removeAlbum);
+  router.post("/albums/:albumId/addPhoto/:photoId",jwt({secret: process.env.SECRET_TOKEN}), albumsController.addPhoto);
+  router.post("/albums/:albumId/removePhoto/:photoId",jwt({secret: process.env.SECRET_TOKEN}), albumsController.removePhoto);
+  router.get("/albums/:albumId",jwt({secret: process.env.SECRET_TOKEN}), albumsController.getAlbum);
+  router.get("/albums",jwt({secret: process.env.SECRET_TOKEN}), albumsController.getAllAlbums);
 
   return router
 }
