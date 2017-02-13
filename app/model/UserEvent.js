@@ -16,23 +16,22 @@ var attributes = {
   userId: {
     type: Sequelize.INTEGER,
     references: {
-      model: "User",
+      model: "users",
       key: "id"
     }
   },
-  feedType:{
-    type: Sequelize.STRING
-  },
-  feedTypeId: {
-    type: Sequelize.INTEGER
-  },
-  url:{
-    type: Sequelize.STRING
+  eventId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: "events",
+      key: "id"
+    }
   },
   status: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   }
 }
+
 
 
 var options = {}

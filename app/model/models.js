@@ -15,7 +15,9 @@ var UserMeta = require('./User.js'),
     ProjectMeta = require('./Project.js'),
     ExperienceMeta = require('./Experience.js'),
     DegreeMeta = require('./Degree.js'),
-    ProfileMeta = require('./Profile.js');
+    ProfileMeta = require('./Profile.js'),
+    EventMeta = require('./Event.js'),
+    UserEventMeta = require('./UserEvent.js');
 
 
 
@@ -35,7 +37,9 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
   Project = connection.define("projects",ProjectMeta.attributes,ProjectMeta.options),
   Experience = connection.define("experiences",ExperienceMeta.attributes,ExperienceMeta.options),
   Degree = connection.define("degrees",DegreeMeta.attributes,DegreeMeta.options),
-  Profile = connection.define("profiles",ProfileMeta.attributes,ProfileMeta.options);
+  Profile = connection.define("profiles",ProfileMeta.attributes,ProfileMeta.options),
+  Event = connection.define("events",EventMeta.attributes,EventMeta.options),
+  UserEvent = connection.define("users_events",UserEventMeta.attributes,UserEventMeta.options);
 
 
 User.hasMany(Post);
@@ -44,6 +48,8 @@ User.hasMany(Photo);
 User.hasMany(Video);
 Photo.belongsTo(User);
 Video.belongsTo(User);
+
+
 
 User.belongsToMany(User, { as: 'Friends', through: 'users_friends', foreignKey: 'userId' })
 
@@ -66,6 +72,8 @@ Photo.hasMany(Comment);
 Comment.belongsTo(Post);
 Comment.belongsTo(Photo);
 
+User.hasMany(Event);
+Event.belongsTo(User);
 
 module.exports.connection = connection
 module.exports.User = User
@@ -84,3 +92,5 @@ module.exports.Project = Project
 module.exports.Degree = Degree
 module.exports.Experience = Experience
 module.exports.Profile = Profile
+module.exports.Event = Event
+module.exports.UserEvent = UserEvent

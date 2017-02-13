@@ -20,7 +20,8 @@ var passport = require('passport'),
   projectsController = require('../controllers/projectsController.js'),
   degreesController = require('../controllers/degreesController.js'),
   experiencesController = require('../controllers/experiencesController.js'),
-  profilesController = require('../controllers/profilesController');
+  profilesController = require('../controllers/profilesController'),
+  eventsController = require('../controllers/eventsController.js');
 
   require("dotenv").config()
 
@@ -124,6 +125,19 @@ module.exports = function(express) {
   router.post("/send_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.sendConnectionRequest);
   router.post("/accept_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.acceptConnectionRequest);
   router.post("/cancel_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.cancelConnectionRequest);
-  
+  router.post("/remove_connection",jwt({secret: process.env.SECRET_TOKEN}), jobsController.removeConnection)
+
+
+// events Routes
+  router.post("/events",jwt({secret: process.env.SECRET_TOKEN}), eventsController.create);
+  router.get("/events/feed",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getEventsFeeds);
+  router.post("/events/:eventId/going",jwt({secret: process.env.SECRET_TOKEN}), eventsController.markAsGoing);
+  router.post("/events/:eventId/interested",jwt({secret: process.env.SECRET_TOKEN}), eventsController.markAsInterested);
+  router.get("/events/interested",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getInterestedEvents);
+  router.get("/events/going",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getGoingEvents);
+  router.get("/events/posted",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getUserEvents);
+
+
+
   return router
 }

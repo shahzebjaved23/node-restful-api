@@ -127,6 +127,10 @@ module.exports.cancelConnectionRequest = function(req,res){
 
 }
 
+module.exports.removeConnection = function(req,res){
+	
+}
+
 
 
 

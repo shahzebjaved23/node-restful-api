@@ -13,26 +13,24 @@ var attributes = {
   updatedAt: {
     type: Sequelize.DATE
   },
+  title: {
+    type: Sequelize.STRING,
+  },
+  location: {
+    type: Sequelize.STRING,
+  },
+  description:{
+    type: Sequelize.TEXT
+  },
   userId: {
     type: Sequelize.INTEGER,
-    references: {
+    references:{
       model: "User",
       key: "id"
     }
-  },
-  feedType:{
-    type: Sequelize.STRING
-  },
-  feedTypeId: {
-    type: Sequelize.INTEGER
-  },
-  url:{
-    type: Sequelize.STRING
-  },
-  status: {
-    type: Sequelize.STRING
   }
 }
+
 
 
 var options = {}
