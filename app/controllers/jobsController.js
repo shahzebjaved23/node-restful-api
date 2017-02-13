@@ -116,19 +116,64 @@ module.exports.getJobApplicants = function(req,res){
 
 
 module.exports.sendConnectionRequest = function(req,res){
-
+	Model.Connection.create({
+		userId: req.user.id,
+		connectionId: req.params.connectionId,
+		status: "pending"
+	}).then(function(connection){
+		return res.status(200).json({
+			message: "connection request sent successfully"
+		})
+	}).catch(function(error){
+		return res.status(400).json({
+			error: error
+		})
+	})
 }
 
 module.exports.acceptConnectionRequest = function(req,res){
-
+	Model.Connection.findById(req.params.connectionId).then(function(connection){
+		connection.update({
+			status: "done"
+		}).then(function(){
+			return res.status(200).json({
+				message: "connection request successfully accepted"
+			})
+		}).catch(function(error){
+			return res.status(400).json({
+				error: error
+			})
+		})
+	}).catch(function(error){
+		return res.status(400).json({
+			error: error
+		})
+	})	
 }
 
 module.exports.cancelConnectionRequest = function(req,res){
-
+	Model.Connection.findById(req.params.id).then(function(connection){
+		connection.destroy().then(function(){
+			return res.status(200).json({
+				message: "connection request cancelled"
+			})
+		}).catch(function(error){
+			return res.status(400).json({
+				error: error
+			})
+		})	
+	}).catch(function(error){
+		return res.status(400).json({
+			error: error
+		})
+	})	
 }
 
 module.exports.removeConnection = function(req,res){
-	
+	sequelize.query("select connection.id from connection where (userId= "+req.user.id+" and connectionId="+req.params.connectionId+") or (userId="+req.params.connectionId+" and connectionId="+req.user.id+")",{type: sequelize.QueryTypes.SELECT})
+	.then(function(result){
+		console.log(result[0].id);
+	})
 }
 
 

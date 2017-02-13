@@ -18,7 +18,8 @@ var UserMeta = require('./User.js'),
     ProfileMeta = require('./Profile.js'),
     EventMeta = require('./Event.js'),
     UserEventMeta = require('./UserEvent.js'),
-    AlbumMeta = require('./Album.js');
+    AlbumMeta = require('./Album.js'),
+    ConnectionMeta = require('./Connection.js');
 
 
 
@@ -41,7 +42,8 @@ var User = connection.define('users', UserMeta.attributes, UserMeta.options),
   Profile = connection.define("profiles",ProfileMeta.attributes,ProfileMeta.options),
   Event = connection.define("events",EventMeta.attributes,EventMeta.options),
   UserEvent = connection.define("users_events",UserEventMeta.attributes,UserEventMeta.options),
-  Album = connection.define("albums",AlbumMeta.attributes,AlbumMeta.options);
+  Album = connection.define("albums",AlbumMeta.attributes,AlbumMeta.options),
+  Connection = connection.define("connections",ConnectionMeta.attributes,ConnectionMeta.options);
 
 
 User.hasMany(Post);
@@ -100,3 +102,4 @@ module.exports.Profile = Profile
 module.exports.Event = Event
 module.exports.UserEvent = UserEvent
 module.exports.Album = Album
+module.exports.Connection = Connection

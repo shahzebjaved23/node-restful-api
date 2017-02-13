@@ -148,3 +148,8 @@ module.exports = function(express) {
 
   return router
 }
+
+// SHAFUL_ACCESS_KEY_ID="AKIAJRZJIJZ3LEUKM52A"
+// SHAFUL_SECRET_ACCESS_KEY="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"
+// SHAFUL_S3_BUCKET="tl-images"
+

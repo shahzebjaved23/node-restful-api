@@ -118,7 +118,7 @@ module.exports.markAsGoing = function(req,res){
 					Model.Feed.create({
 						userId: req.user.id,
 						feedType: "Event",
-						feedTypeId: req.body.eventId,
+						feedTypeId: req.params.eventId,
 						status: "interested"
 					});
 					return res.status(200).json({
@@ -166,7 +166,7 @@ module.exports.markAsInterested = function(req,res){
 					Model.Feed.create({
 						userId: req.user.id,
 						feedType: "Event",
-						feedTypeId: req.body.eventId,
+						feedTypeId: req.params.eventId,
 						status: "interested"
 					});
 					return res.status(200).json({
