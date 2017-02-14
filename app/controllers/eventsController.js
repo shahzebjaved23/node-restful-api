@@ -123,7 +123,7 @@ module.exports.markAsGoing = function(req,res){
 							status: "going"
 						});
 						return res.status(200).json({
-							event: users_events[0]
+							event: "successfully marked as going"
 						})
 					}).catch(function(error){
 						return res.status(400).json({
@@ -171,7 +171,7 @@ module.exports.markAsInterested = function(req,res){
 							status: "interested"
 						});
 						return res.status(200).json({
-							event: users_events[0]
+							event: "successfully marked as interested"
 						})
 					}).catch(function(error){
 						return res.status(400).json({
