@@ -68,8 +68,8 @@ module.exports.getEventsFeeds = function(req,res){
 
 			if (friends_ids.length > 0){
 				// get the events where userId is in the friends_ids
-				sequelize.query("SELECT * from events where userId = "+req.user.id+" or userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (events)=>{
-
+				sequelize.query("SELECT events.*,users.firstName,users.lastName from events inner join users on events.userId = users.id where events.userId = "+req.user.id+" or events.userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (events)=>{
+						
 						return res.status(200).json({
 							events:events
 						});
