@@ -88,7 +88,7 @@ module.exports.getEventsFeeds = function(req,res){
 
 			if (friends_ids.length > 0){
 				// get the events where userId is in the friends_ids
-				sequelize.query("SELECT events.*,users.firstName,users.lastName from events inner join users on events.userId = users.id where events.userId = "+req.user.id+" or events.userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (events)=>{
+				sequelize.query("select events.*,users_events.status,users.firstName,users.lastName from users inner join users_events on users.id = users_events.userId inner join events on events.id = users_events.eventId where events.userId = "+req.user.id+" or events.userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (events)=>{
 						
 						return res.status(200).json({
 							events:events
@@ -163,7 +163,7 @@ module.exports.markAsInterested = function(req,res){
 				Model.UserEvent.findById(users_events[0].id).then(function(user_event){
 					user_event.update({
 						status: "interested"
-					}).then(function(){
+					}).then(function(user_event){
 						Model.Feed.create({
 							userId: req.user.id,
 							feedType: "Event",
