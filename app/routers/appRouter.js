@@ -128,6 +128,8 @@ module.exports = function(express) {
   router.post("/cancel_connection_request", jwt({ secret: process.env.SECRET_TOKEN}), jobsController.cancelConnectionRequest);
   router.post("/remove_connection",jwt({secret: process.env.SECRET_TOKEN}), jobsController.removeConnection)
 
+// seperate feeds for videos and photos
+  router.get("/media/feed",jwt({secret: process.env.SECRET_TOKEN}),mediaController.getMediaFeeds)
 
 // events Routes
   router.post("/events",jwt({secret: process.env.SECRET_TOKEN}), eventsController.create);

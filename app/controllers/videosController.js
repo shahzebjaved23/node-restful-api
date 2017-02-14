@@ -64,9 +64,11 @@ module.exports.create = function(req, res) {
                           console.error(err);
                       }
                       Model.Feed.create({
+                        userId: req.user.id,
                         feedType: "Video",
                         feedTypeId: video.id,
-                        url: video.publicUrl
+                        videoUrl: video.publicUrl,
+                        thumbnailUrl: video.thumbnailUrl
                       }).then(function(){
                          // return the response
                         return res.status(200).json({
@@ -91,4 +93,37 @@ module.exports.create = function(req, res) {
     });
   });
 
+}
+
+
+module.exports.getVideoFeed = function(req,res){
+  var userId = req.user.id;
+
+  // select the user ids that are friends of the above user id
+  sequelize.query("SELECT users.id FROM `users` WHERE users.id IN (SELECT friendId FROM users_friends WHERE userId = "+userId+") OR users.id IN (SELECT userId FROM users_friends WHERE friendid = "+userId+") OR users.id = "+userId,{ type: sequelize.QueryTypes.SELECT}).then((friends)=>{
+
+      // map them in an array friends_ids
+      var friends_ids = [];
+      friends.map(function(friend){
+        friends_ids.push(friend.id);
+      })
+    
+
+      if (friends_ids.length > 0){
+        // get the videos of the friends_ids
+        sequelize.query("SELECT * from videos where userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (video)=>{
+            return res.status(200).json({
+              video:video
+            });
+          } ).catch((error)=>{
+            return res.status(400).json({
+              error: error
+            });
+          }); 
+      }else{
+        return res.status(200).json({
+          message: "you have no videos"
+        })
+      }    
+  });
 }

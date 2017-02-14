@@ -31,6 +31,21 @@ var attributes = {
   },
   status: {
     type: Sequelize.STRING
+  },
+  albumId: {
+    type: Sequelize.STRING
+  },
+  photoUrl: {
+    type: Sequelize.STRING
+  },
+  videoUrl :{
+    type: Sequelize.STRING
+  },
+  thumbnailUrl: {
+    type: Sequelize.STRING
+  },
+  commentBody:{
+    type: Sequelize.TEXT
   }
 }
 
