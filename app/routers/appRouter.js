@@ -132,8 +132,9 @@ module.exports = function(express) {
 // events Routes
   router.post("/events",jwt({secret: process.env.SECRET_TOKEN}), eventsController.create);
   router.get("/events/feed",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getEventsFeeds);
-  router.post("/events/:eventId/going",jwt({secret: process.env.SECRET_TOKEN}), eventsController.markAsGoing);
-  router.post("/events/:eventId/interested",jwt({secret: process.env.SECRET_TOKEN}), eventsController.markAsInterested);
+  router.get("/events/friends/feed",jwt({secret: process.env.SECRET_TOKEN}),eventsController.getFriendsEventsFeeds);
+  router.post("/events/going",jwt({secret: process.env.SECRET_TOKEN}), eventsController.markAsGoing);
+  router.post("/events/interested",jwt({secret: process.env.SECRET_TOKEN}), eventsController.markAsInterested);
   router.get("/events/interested",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getInterestedEvents);
   router.get("/events/going",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getGoingEvents);
   router.get("/events/posted",jwt({secret: process.env.SECRET_TOKEN}), eventsController.getUserEvents);

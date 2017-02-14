@@ -50,12 +50,32 @@ module.exports.getUserEvents = function(req,res){
 	})
 }
 
+module.exports.getFriendsEventsFeeds = function(req,res){
+	// get the user id
+	var userId = req.user.id;
+
+	// select the user ids that are friends of the above user id
+	sequelize.query("SELECT users.id FROM `users` WHERE users.id IN (SELECT friendId FROM users_friends WHERE userId = "+userId+") OR users.id IN (SELECT userId FROM users_friends WHERE friendid = "+userId+") OR users.id = "+userId,{ type: sequelize.QueryTypes.SELECT}).then((friends)=>{
+
+			// map them in an array friends_ids
+			var friends_ids = [];
+			friends.map(function(friend){
+				friends_ids.push(friend.id);
+			})
+
+			sequelize.query("select events.*,users_events.status,users.firstName,users.lastName from users inner join users_events on users.id = users_events.userId inner join events on events.id = users_events.eventId",{ type: sequelize.QueryTypes.SELECT}).then(function(result){
+				
+				return res.status(200).json({
+					feeds: result
+				})
+			})
+		})
+}			
+
 // get all events posted by the user and the friends of the user
 module.exports.getEventsFeeds = function(req,res){
 	// get the user id
 	var userId = req.user.id;
-
-	"select events.* from events where userId = req.user.id or userId in friends_ids or id in (select eventId from users_events where userId in friends_ids)"
 
 	// select the user ids that are friends of the above user id
 	sequelize.query("SELECT users.id FROM `users` WHERE users.id IN (SELECT friendId FROM users_friends WHERE userId = "+userId+") OR users.id IN (SELECT userId FROM users_friends WHERE friendid = "+userId+") OR users.id = "+userId,{ type: sequelize.QueryTypes.SELECT}).then((friends)=>{
@@ -89,7 +109,7 @@ module.exports.getEventsFeeds = function(req,res){
 }
 
 module.exports.markAsGoing = function(req,res){
-	sequelize.query("select * from users_events where users_events.userId = "+req.user.id+" and users_events.eventId = "+ req.params.eventId,{ type: sequelize.QueryTypes.SELECT}).then(function(users_events){
+	sequelize.query("select * from users_events where users_events.userId = "+req.user.id+" and users_events.eventId = "+ req.body.eventId,{ type: sequelize.QueryTypes.SELECT}).then(function(users_events){
 			console.log(users_events);
 			if(users_events.length > 0){
 				Model.UserEvent.findById(users_events[0].id).then(function(user_event){
@@ -115,17 +135,17 @@ module.exports.markAsGoing = function(req,res){
 			}else{
 				Model.UserEvent.create({
 					userId: req.user.id,
-					eventId: req.params.eventId,
-					status: "interested"
+					eventId: req.body.eventId,
+					status: "going"
 				}).then(function(userevent){
 					Model.Feed.create({
 						userId: req.user.id,
 						feedType: "Event",
-						feedTypeId: req.params.eventId,
-						status: "interested"
+						feedTypeId: req.body.eventId,
+						status: "going"
 					});
 					return res.status(200).json({
-						message: "event successfully marked as interested"
+						message: "event successfully marked as going"
 					})
 				}).catch(function(error){
 					return res.status(400).json({
@@ -137,7 +157,7 @@ module.exports.markAsGoing = function(req,res){
 }
 
 module.exports.markAsInterested = function(req,res){
-	sequelize.query("select * from users_events where users_events.userId = "+req.user.id+" and users_events.eventId = "+ req.params.eventId,{ type: sequelize.QueryTypes.SELECT}).then(function(users_events){
+	sequelize.query("select * from users_events where users_events.userId = "+req.user.id+" and users_events.eventId = "+ req.body.eventId,{ type: sequelize.QueryTypes.SELECT}).then(function(users_events){
 			console.log(users_events);
 			if(users_events.length > 0){
 				Model.UserEvent.findById(users_events[0].id).then(function(user_event){
@@ -163,13 +183,13 @@ module.exports.markAsInterested = function(req,res){
 			}else{
 				Model.UserEvent.create({
 					userId: req.user.id,
-					eventId: req.params.eventId,
+					eventId: req.body.eventId,
 					status: "interested"
 				}).then(function(userevent){
 					Model.Feed.create({
 						userId: req.user.id,
 						feedType: "Event",
-						feedTypeId: req.params.eventId,
+						feedTypeId: req.body.eventId,
 						status: "interested"
 					});
 					return res.status(200).json({
