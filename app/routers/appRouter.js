@@ -22,7 +22,9 @@ var passport = require('passport'),
   experiencesController = require('../controllers/experiencesController.js'),
   profilesController = require('../controllers/profilesController'),
   eventsController = require('../controllers/eventsController.js'),
-  albumsController = require('../controllers/albumsController.js');
+  albumsController = require('../controllers/albumsController.js'),
+  likesController = require('../controllers/likesController.js'),
+  commentsController = require('../controllers/commentsController.js');
 
   require("dotenv").config()
 
@@ -60,20 +62,28 @@ module.exports = function(express) {
 
 
 // Photos likes
-  router.get('/photos/:photoId/likes',jwt({secret: process.env.SECRET_TOKEN}),photosController.likes)
-  router.post('/photos/:photoId/likes',jwt({secret: process.env.SECRET_TOKEN}),photosController.addLike)
+  router.get('/photos/:photoId/likes',jwt({secret: process.env.SECRET_TOKEN}),likesController.get)
+  router.post('/photos/:photoId/likes',jwt({secret: process.env.SECRET_TOKEN}),likesController.add)
   
 // Posts Likes
-  router.get('/posts/:postId/likes',jwt({secret: process.env.SECRET_TOKEN}),postsController.likes)
-  router.post('/posts/:postId/likes',jwt({secret: process.env.SECRET_TOKEN}),postsController.addLike)
+  router.get('/posts/:postId/likes',jwt({secret: process.env.SECRET_TOKEN}),likesController.get)
+  router.post('/posts/:postId/likes',jwt({secret: process.env.SECRET_TOKEN}),likesController.add)
+
+// Posts Videos
+  router.get('/videos/:videoId/likes',jwt({secret: process.env.SECRET_TOKEN}),likesController.get)
+  router.post('/videos/:videoId/likes',jwt({secret: process.env.SECRET_TOKEN}),likesController.add)  
 
 // Photos Comments
-  router.get('/photos/:photoId/comments',jwt({secret: process.env.SECRET_TOKEN}),photosController.comments)
-  router.post('/photos/:photoId/comments',jwt({secret: process.env.SECRET_TOKEN}),photosController.addComment)
+  router.get('/photos/:photoId/comments',jwt({secret: process.env.SECRET_TOKEN}),commentsController.get)
+  router.post('/photos/:photoId/comments',jwt({secret: process.env.SECRET_TOKEN}),commentsController.add)
   
 // Posts comments
-  router.get('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),postsController.comments)
-  router.post('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),postsController.addComment)
+  router.get('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),commentsController.get)
+  router.post('/posts/:postId/comments',jwt({secret: process.env.SECRET_TOKEN}),commentsController.add)
+
+// Videos comments
+  router.get('/videos/:videoId/comments',jwt({secret: process.env.SECRET_TOKEN}),commentsController.get)
+  router.post('/videos/:videoId/comments',jwt({secret: process.env.SECRET_TOKEN}),commentsController.add)
 
 
 // user feeds

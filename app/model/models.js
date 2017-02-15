@@ -60,10 +60,18 @@ Photo.belongsTo(Album)
 
 User.belongsToMany(User, { as: 'Friends', through: 'users_friends', foreignKey: 'userId' })
 
+Feed.belongsTo(User,{as: "commentUser", foreignKey: "commentUserId"})
+Feed.belongsTo(User);
+Feed.belongsTo(User,{as: "likeUser", foreignKey: "likeUserId"})
+
+
 User.hasMany(Job)
 
 User.hasOne(Profile)
 Profile.belongsTo(User)
+
+User.hasMany(Comment)
+Comment.belongsTo(User)
 
 Job.belongsTo(User,{foreignKey: "userId"})
 Job.belongsTo(JobCategory,{foreignKey: "job_category_id"})

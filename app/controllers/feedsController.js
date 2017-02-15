@@ -3,6 +3,7 @@ var Model = require('../model/models.js');
 var Sequelize = require('sequelize');
 var _ = require('lodash');
 var sequelize = require("../sequelize.js");
+var promise = require("bluebird");
 
 
 module.exports.feeds = function(req,res){
@@ -19,22 +20,56 @@ module.exports.feeds = function(req,res){
 				friends_ids.push(friend.id);
 			})
 
-			if (friends_ids.length > 0){
-				// get the posts and photos of the friends_ids
-				sequelize.query("SELECT * from feeds where userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (feeds)=>{
-						return res.status(200).json({
-							feeds:feeds
-						});
-					} ).catch((error)=>{
-						return res.status(400).json({
-							error: error
-						});
-					});	
-			}else{
-				return res.status(200).json({
-					message: "you have no feeds"
+			Model.Feed.findAll({
+				where:{userId:{ $in: friends_ids }},
+				include: [ Model.User,{ model: Model.User , as: 'commentUser'},{ model: Model.User , as: 'likeUser'} ]
+			}).then(function(feeds){
+				feeds.map(function(feed){
+					console.log(feed.id + "" + feed.commentUser)
+				});
+				res.status(200).json({
+					feeds: feeds
 				})
-			}
+			})
+
+			// if (friends_ids.length > 0){
+			// 	// get the posts and photos of the friends_ids
+			// 	sequelize.query("SELECT * from feeds where userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (feeds)=>{
+
+			// 			console.log
+			// 			var newFeeds = promise.map(feeds,function(feed){
+			// 				console.log(feed);
+			// 				if(feed.commentUserId){
+			// 					console.log("inside the if")
+			// 					Model.User.findById(feed.commentUserId).then(function(user){
+			// 						console.log("inside the then")
+			// 						feed.commentUser = user
+			// 					})
+			// 				}
+			// 				return feed
+			// 			}).then(function(newFeeds){
+			// 				return res.status(200).json({
+			// 					feeds:newFeeds
+			// 				});
+			// 			})
+
+			// 			// return res.status(200).json({
+			// 			// 	feeds:newFeeds
+			// 			// });
+
+			// 			console.log(newFeeds);
+
+						
+			// 		} ).catch((error)=>{
+			// 			return res.status(400).json({
+			// 				error: error
+			// 			});
+			// 		});	
+			// }else{
+			// 	return res.status(200).json({
+			// 		message: "you have no feeds"
+			// 	})
+			// }
 
 			
 		});

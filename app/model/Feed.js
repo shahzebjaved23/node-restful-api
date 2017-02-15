@@ -35,17 +35,17 @@ var attributes = {
   albumId: {
     type: Sequelize.STRING
   },
-  photoUrl: {
-    type: Sequelize.STRING
-  },
-  videoUrl :{
-    type: Sequelize.STRING
-  },
   thumbnailUrl: {
     type: Sequelize.STRING
   },
-  commentBody:{
+  body:{
     type: Sequelize.TEXT
+  },
+  commentUserId:{
+    type: Sequelize.INTEGER
+  },
+  likeUserId:{
+    type: Sequelize.INTEGER
   }
 }
 

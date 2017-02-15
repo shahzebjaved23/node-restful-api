@@ -67,7 +67,7 @@ module.exports.create = function(req, res) {
                         userId: req.user.id,
                         feedType: "Video",
                         feedTypeId: video.id,
-                        videoUrl: video.publicUrl,
+                        url: video.publicUrl,
                         thumbnailUrl: video.thumbnailUrl
                       }).then(function(){
                          // return the response
@@ -127,3 +127,5 @@ module.exports.getVideoFeed = function(req,res){
       }    
   });
 }
+
+
