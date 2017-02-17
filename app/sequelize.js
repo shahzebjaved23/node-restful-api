@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 var Sequelize = require('sequelize');
+
 if(process.env.IS_HEROKU){
   var sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect:  'postgres',
@@ -11,7 +12,7 @@ if(process.env.IS_HEROKU){
     }
   });
 } else {
-  var sequelize = new Sequelize("AngularDemoApp", "root", null, {
+  var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
     port: 3306
   });
@@ -24,4 +25,4 @@ sequelize
     console.log('Unable to connect to the database:', err);
   });
 
-  module.exports = sequelize
+module.exports = sequelize

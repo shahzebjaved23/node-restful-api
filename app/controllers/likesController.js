@@ -25,6 +25,7 @@ module.exports.add = function(req,res){
 
 	console.log(typeId)
 
+	// get the likes of the user, on the resource
 	Model.Like.findAll({
 		where:{
 			userId: req.user.id,
@@ -33,11 +34,13 @@ module.exports.add = function(req,res){
 		}
 	}).then(function(likesOfUser){
 		console.log(likesOfUser);
+		// if the likes are greater than 0, then return that the users has already liked this
 		if(likesOfUser.length > 0){
 			return res.status(400).json({
 				message: "you have already liked this "+type
 			})
 		}else{
+		// else create a new like
 			Model.Like.create({
 			    userId: req.user.id,
 			    typeId: typeId,
