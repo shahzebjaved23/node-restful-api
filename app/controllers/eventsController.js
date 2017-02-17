@@ -88,16 +88,18 @@ module.exports.getEventsFeeds = function(req,res){
 
 			if (friends_ids.length > 0){
 				// get the events where userId is in the friends_ids
-				sequelize.query("select events.*,users_events.status,users.firstName,users.lastName from users inner join users_events on users.id = users_events.userId inner join events on events.id = users_events.eventId where events.userId = "+req.user.id+" or events.userId in ("+friends_ids+") ORDER BY createdAt DESC",{ type: sequelize.QueryTypes.SELECT }).then( (events)=>{
-						
-						return res.status(200).json({
-							events:events
-						});
-					} ).catch((error)=>{
-						return res.status(400).json({
-							error: error
-						});
-					});	
+				Model.Event.findAll({
+					where:{
+						userId:{
+							$in: friends_ids
+						}
+					},
+					include:[{ model: Model.User , attributes: {exclude: ["password","salt"]}}]
+				}).then(function(events){
+					return res.status(200).json({
+						events: events
+					})
+				})
 			}else{
 				return res.status(200).json({
 					message: "you have no events"

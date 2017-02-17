@@ -4,7 +4,7 @@ var Model = require("../model/models.js");
 module.exports.index = function(req, res) {
   console.log(process.env);
   Model.User.findById(req.user.id).then((user) =>{
-    user.getPosts({include: [Model.User]}).then( (posts) => {
+    user.getPosts({include: {model: Model.User, attributes: { exclude: ['password','salt']} }}).then( (posts) => {
       res.status(200).json({
         posts: posts
       });

@@ -103,9 +103,27 @@ module.exports.apply = function(req,res){
 }
 
 module.exports.getJobApplicants = function(req,res){
-	sequelize.query("select * from users where id in (select userId from jobs_applicants where jobId in ( select id from jobs where userId= "+req.user.id+"))",{type: Sequelize.QueryTypes.SELECT }).then(function(data){
-		return res.status(200).json({
-			applicants: data
+	sequelize.query("select users.id from users where id in (select userId from jobs_applicants where jobId in ( select id from jobs where userId= "+req.user.id+"))",{type: Sequelize.QueryTypes.SELECT }).then(function(data){
+
+		var users_ids = data.map(function(user){
+			return user.id
+		})
+
+		Model.User.findAll({
+			where:{
+				id:{
+					$in:users_ids
+				}
+			},
+			attributes: {exclude: ["password","salt","username"]}
+		}).then(function(users){
+			return res.status(200).json({
+				applicants: users
+			})			
+		}).catch(function(error){
+			return res.status(400).json({
+				error: error
+			})
 		})
 	}).catch(function(error){
 		return res.status(400).json({

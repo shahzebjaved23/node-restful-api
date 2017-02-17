@@ -22,7 +22,11 @@ module.exports.feeds = function(req,res){
 
 			Model.Feed.findAll({
 				where:{userId:{ $in: friends_ids }},
-				include: [ Model.User,{ model: Model.User , as: 'commentUser'},{ model: Model.User , as: 'likeUser'} ]
+				include: [ 
+					{ model:Model.User,attributes: { exclude: ['password','salt']} },
+					{ model: Model.User , as: 'commentUser',attributes: { exclude: ['password','salt']} },
+					{ model: Model.User , as: 'likeUser' ,attributes: { exclude: ['password','salt'] }}
+				]
 			}).then(function(feeds){
 				feeds.map(function(feed){
 					console.log(feed.id + "" + feed.commentUser)

@@ -73,6 +73,8 @@ Profile.belongsTo(User)
 User.hasMany(Comment)
 Comment.belongsTo(User)
 
+Job.belongsToMany(User,{as: "Applicants", through: "jobs_applicants", foreignKey:"userId"})
+
 Job.belongsTo(User,{foreignKey: "userId"})
 Job.belongsTo(JobCategory,{foreignKey: "job_category_id"})
 JobCategory.hasMany(Job)
