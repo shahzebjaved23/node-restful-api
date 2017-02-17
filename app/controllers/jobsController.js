@@ -103,33 +103,62 @@ module.exports.apply = function(req,res){
 }
 
 module.exports.getJobApplicants = function(req,res){
-	sequelize.query("select users.id from users where id in (select userId from jobs_applicants where jobId in ( select id from jobs where userId= "+req.user.id+"))",{type: Sequelize.QueryTypes.SELECT }).then(function(data){
+	var jobId = req.params.jobId;
 
-		var users_ids = data.map(function(user){
-			return user.id
-		})
-
-		Model.User.findAll({
-			where:{
-				id:{
-					$in:users_ids
-				}
-			},
-			attributes: {exclude: ["password","salt","username"]}
-		}).then(function(users){
+	Model.Job.findById(jobId).then(function(job){
+		
+		job.getApplicants({attributes:{exclude:["jobs_applicants"]}}).then(function(applicants){
 			return res.status(200).json({
-				applicants: users
-			})			
-		}).catch(function(error){
-			return res.status(400).json({
-				error: error
+				applicants: applicants
 			})
 		})
-	}).catch(function(error){
-		return res.status(400).json({
-			error: error
-		})
+
+		// Model.Job.findAll({
+		// 	where:{
+		// 		id: jobId
+		// 	},
+		// 	include: [ { model: Model.Job } , { model: Model.User , as: "applicants"}]
+		// }).then(function(job){
+		// 	job.getApplicants().then(function(applicants){
+		// 		return res.status(200).json({
+		// 			applicants: applicants
+		// 		})
+		// 	})
+		// })
+	
 	})
+	
+	// sequelize.query("SELECT * FROM users INNER JOIN jobs_applicants ON jobs_applicants.userId = users.id INNER JOIN jobs ON jobs.id = jobs_applicants.jobId where jobs.id = "+jobId,{type: Sequelize.QueryTypes.SELECT }).then(function(data){
+
+	// 	return res.status(200).json({
+	// 			applicants: data
+	// 		})
+
+	// 	var users_ids = data.map(function(user){
+	// 		return user.id
+	// 	})
+
+	// 	Model.User.findAll({
+	// 		where:{
+	// 			id:{
+	// 				$in:users_ids
+	// 			}
+	// 		},
+	// 		attributes: {exclude: ["password","salt","username"]}
+	// 	}).then(function(users){
+	// 		return res.status(200).json({
+	// 			applicants: users
+	// 		})			
+	// 	}).catch(function(error){
+	// 		return res.status(400).json({
+	// 			error: error
+	// 		})
+	// 	})
+	// }).catch(function(error){
+	// 	return res.status(400).json({
+	// 		error: error
+	// 	})
+	// })
 }
 
 

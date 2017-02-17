@@ -109,7 +109,7 @@ module.exports = function(express) {
   router.get("/jobs",jwt({secret: process.env.SECRET_TOKEN}), jobsController.getAllJobs);
   router.post("/jobs/post",jwt({secret: process.env.SECRET_TOKEN}), jobsController.create);
   router.post("/jobs/:jobId/apply",jwt({secret: process.env.SECRET_TOKEN}), jobsController.apply);
-  router.get("/jobs/applicants",jwt({secret: process.env.SECRET_TOKEN}),jobsController.getJobApplicants)
+  router.get("/jobs/:jobId/applicants",jwt({secret: process.env.SECRET_TOKEN}),jobsController.getJobApplicants)
 
   router.post("/resume", jwt({secret: process.env.SECRET_TOKEN}), resumeController.createResume);
   router.get("/resume", jwt({secret: process.env.SECRET_TOKEN}), resumeController.getResume);

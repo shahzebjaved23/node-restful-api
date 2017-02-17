@@ -12,7 +12,7 @@ if(process.env.IS_HEROKU){
     }
   });
 } else {
-  var sequelize = new Sequelize("AngularDemoApp", "root", null, {
+  var sequelize = new Sequelize("AngularDemoApp", "root", "password", {
     dialect: "mysql",
     port: 3306
   });
